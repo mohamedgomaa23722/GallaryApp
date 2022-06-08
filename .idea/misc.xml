@@ -3,7 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.30416666666666664" />
+        <entry key="../../../layout/custom_preview.xml" value="0.3484375" />
+        <entry key="app/src/main/res/drawable/ic_baseline_insert_photo_24.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_baseline_play_circle_filled_24.xml" value="0.297" />
+        <entry key="app/src/main/res/drawable/ic_baseline_replay_10_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/media_frame.xml" value="0.297" />
+        <entry key="app/src/main/res/layout/activity_display.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.9" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout/album_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/custom_playback_view.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/fragment_album.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/fragment_all_media.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout/fragment_favourite.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_video.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/item.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/media_item.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/parent_media_item.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/menu/main_menu.xml" value="0.33" />
       </map>
     </option>
   </component>

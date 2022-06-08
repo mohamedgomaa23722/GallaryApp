@@ -27,19 +27,27 @@ public class mediaModel {
     private long mediaDate;
     @ColumnInfo(name = MEDIA_TYPE)
     private boolean isImage;
-
+    @ColumnInfo(name= "AlbumID")
+    private String albumID;
+    @ColumnInfo(name = "fav")
+    private boolean isFav;
     private Boolean selected = false;
 
     public mediaModel() {
     }
 
-    public mediaModel(String mediaName, String mediaPath, String mediaSize, long mediaDate, boolean isImage) {
+    public mediaModel(String mediaName, String mediaPath, String mediaSize, long mediaDate, boolean isImage, String albumID, boolean isFav, Boolean selected) {
         this.mediaName = mediaName;
         this.mediaPath = mediaPath;
         this.mediaSize = mediaSize;
         this.mediaDate = mediaDate;
         this.isImage = isImage;
+        this.albumID = albumID;
+        this.isFav = isFav;
+        this.selected = selected;
     }
+
+
 
     public int getMedia_Id() {
         return media_Id;
@@ -95,5 +103,21 @@ public class mediaModel {
 
     public void setSelected(Boolean selected) {
         this.selected = selected;
+    }
+
+    public String getAlbumID() {
+        return albumID;
+    }
+
+    public void setAlbumID(String albumID) {
+        this.albumID = albumID;
+    }
+
+    public boolean isFav() {
+        return isFav;
+    }
+
+    public void setFav(boolean fav) {
+        isFav = fav;
     }
 }

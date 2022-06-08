@@ -11,10 +11,10 @@ import java.util.List;
 
 public class DateAndMedia {
     @Embedded
-    DateOfMedia date;
+   public  DateOfMedia date;
     @Relation(
             parentColumn = MEDIA_DATE_ID,
             entityColumn = MEDIA_DATE
     )
-    List<mediaModel> mediaModelList;
+   public List<mediaModel> mediaModelList;
 }

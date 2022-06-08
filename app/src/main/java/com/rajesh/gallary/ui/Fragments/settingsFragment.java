@@ -10,11 +10,14 @@ import android.view.ViewGroup;
 
 import com.rajesh.gallary.R;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link settingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class settingsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match

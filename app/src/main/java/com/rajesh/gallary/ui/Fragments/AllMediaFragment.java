@@ -1,66 +1,91 @@
 package com.rajesh.gallary.ui.Fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rajesh.gallary.Adapter.allPicsAndVideos.DateAndMediaAdapter;
 import com.rajesh.gallary.R;
+import com.rajesh.gallary.databinding.FragmentAllMediaBinding;
+import com.rajesh.gallary.model.DateAndMedia;
+import com.rajesh.gallary.model.mediaModel;
+import com.rajesh.gallary.network.onItemClickListener;
+import com.rajesh.gallary.ui.Activities.DisplayActivity;
+import com.rajesh.gallary.ui.viewModels.MainViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AllMediaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class AllMediaFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import javax.inject.Inject;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import dagger.hilt.android.AndroidEntryPoint;
 
-    public AllMediaFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AllMediaFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AllMediaFragment newInstance(String param1, String param2) {
-        AllMediaFragment fragment = new AllMediaFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+@AndroidEntryPoint
+public class AllMediaFragment extends Fragment implements onItemClickListener<mediaModel> {
+    private FragmentAllMediaBinding binding;
+    private MainViewModel viewModel;
+    @Inject
+    DateAndMediaAdapter adapter;
+    private RecyclerView.RecycledViewPool viewPool;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_media, container, false);
+        binding = FragmentAllMediaBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel=new ViewModelProvider(this).get(MainViewModel.class);
+        SetupView();
+        ObserveData();
+    }
+
+    private void SetupView() {
+        binding.mediaList.setHasFixedSize(true);
+        viewPool = new RecyclerView.RecycledViewPool();
+        binding.mediaList.setAdapter(adapter);
+        binding.mediaList.setVisibility(View.INVISIBLE);
+        adapter.setOnItemClickListener(this);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void ObserveData() {
+        viewModel.getAllMediaItems().observe(getViewLifecycleOwner(), MediaResponse -> {
+            viewPool.setMaxRecycledViews(R.layout.parent_media_item,MediaResponse.size());
+            binding.mediaList.setRecycledViewPool(viewPool);
+            binding.mediaList.setItemViewCacheSize(MediaResponse.size());
+            adapter.setMediaAndDateList(MediaResponse);
+            Log.d("gogo", "ObserveData: " + MediaResponse.size());
+            binding.progress.setVisibility(View.INVISIBLE);
+            binding.mediaList.setVisibility(View.VISIBLE);
+        });
+    }
+
+    @Override
+    public void onClickedItem(mediaModel itemData) {
+     if(itemData.isImage()){
+
+     }else{
+         Intent intent = new Intent(getContext(), DisplayActivity.class);
+         intent.putExtra("path",itemData.getMediaPath());
+         startActivity(intent);
+     }
     }
 }

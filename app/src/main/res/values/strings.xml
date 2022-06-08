@@ -2,4 +2,10 @@
     <string name="app_name">Gallary</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="photos">photos</string>
+    <string name="albums">Albums</string>
+    <string name="share_app">Share app</string>
+    <string name="rate_us">Rate us</string>
+    <string name="change_view_type">Change view type</string>
+    <string name="settings">Settings</string>
 </resources>

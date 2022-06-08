@@ -9,9 +9,12 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = MEDIA_DATE_TABLE)
 public class DateOfMedia {
-    @PrimaryKey (autoGenerate = false)
+    @PrimaryKey
     @ColumnInfo(name = MEDIA_DATE_ID)
     long date;
+
+    public DateOfMedia() {
+    }
 
     public DateOfMedia(long date) {
         this.date = date;
