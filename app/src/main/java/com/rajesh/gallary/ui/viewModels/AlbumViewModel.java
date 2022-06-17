@@ -22,7 +22,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class AlbumViewModel extends ViewModel {
     private static final String TAG = "AlbumViewModel";
     private MediaRepository repository;
-    private final MutableLiveData<List<AlbumsAndMedia>> albums = new MutableLiveData<>();
 
     @Inject
     public AlbumViewModel(MediaRepository repository) {
@@ -30,15 +29,4 @@ public class AlbumViewModel extends ViewModel {
     }
 
 
-    public void initializeAlbumsData() {
-        repository.getAlbums().subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(albums::setValue,
-                        error -> Log.e(TAG, "initializeAlbumsData: ", error),
-                        () -> Log.d(TAG, "initializeAlbumsData: completed"));
-    }
-
-    public MutableLiveData<List<AlbumsAndMedia>> getAlbums() {
-        return albums;
-    }
 }

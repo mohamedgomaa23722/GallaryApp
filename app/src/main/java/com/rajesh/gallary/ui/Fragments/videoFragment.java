@@ -12,6 +12,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,11 +24,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.FragmentVideoBinding;
+import com.rajesh.gallary.model.mediaModel;
+import com.rajesh.gallary.ui.viewModels.MainViewModel;
 import com.rajesh.gallary.utils.VideoPlayerOperator;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -36,18 +41,30 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class videoFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "videoFragment";
     private FragmentVideoBinding binding;
-    StyledPlayerView playerView;
-    TextView video_title;
-    String path;
+    private mediaModel model;
     @Inject
     VideoPlayerOperator videoPlayerOperator;
-    private ImageView playButton, seekBackButton, seekForwardButton, backButton, shareButton, moreButton, lockButton, fullScreenButton;
-    private LinearLayout ToolbarView, operatorView;
+    private ImageView playButton, seekBackButton, seekForwardButton, lockButton, fullScreenButton;
+    private LinearLayout operatorView;
     private RelativeLayout progressView;
+    private MainViewModel viewModel;
+
+    public videoFragment() {
+    }
+
+
+    public static videoFragment newInstance(mediaModel model) {
+        Bundle args = new Bundle();
+        args.putSerializable("path", model);
+        videoFragment f = new videoFragment();
+        f.setArguments(args);
+        return f;
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentVideoBinding.inflate(getLayoutInflater());
@@ -57,69 +74,99 @@ public class videoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Intent intent = getActivity().getIntent();
-        path = intent.getStringExtra("path");
-        playerView = view.findViewById(R.id.ExoPlayerVIew);
         setUpViews(view);
-        playVideo();
+        model = (mediaModel) getArguments().getSerializable("path");
+
+        Glide.with(this)
+                .load(model.getMediaPath())
+                .into(binding.img);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
 
     private void setUpViews(View view) {
         playButton = view.findViewById(R.id.exo_play);
         seekBackButton = view.findViewById(R.id.exo_rew);
         seekForwardButton = view.findViewById(R.id.exo_forward);
-        backButton = view.findViewById(R.id.video_back);
-        shareButton = view.findViewById(R.id.video_share);
-        moreButton = view.findViewById(R.id.video_more);
-        video_title = view.findViewById(R.id.video_title);
         lockButton = view.findViewById(R.id.exo_unlock);
         fullScreenButton = view.findViewById(R.id.exo_zoom);
 
-        ToolbarView =  view.findViewById(R.id.toolbar);
-        operatorView = view. findViewById(R.id.bottom_icon);
-        progressView = view. findViewById(R.id.progress);
+        operatorView = view.findViewById(R.id.bottom_icon);
+        progressView = view.findViewById(R.id.progress);
 
-        video_title.setText("good Video ");
         playButton.setOnClickListener(this);
         seekBackButton.setOnClickListener(this);
         seekForwardButton.setOnClickListener(this);
-        shareButton.setOnClickListener(this);
-        moreButton.setOnClickListener(this);
+
         lockButton.setOnClickListener(this);
         fullScreenButton.setOnClickListener(this);
-        backButton.setOnClickListener(this);
+        binding.playVideo.setOnClickListener(this);
+
+        binding.getRoot().setOnClickListener(this);
+        binding.ExoPlayerVIew.setOnClickListener(this);
     }
+
     private void playVideo() {
-        ExoPlayer exoPlayer = videoPlayerOperator.InitializeVideoPlayer(Uri.parse(path));
-        playerView.setPlayer(exoPlayer);
-        playerView.setKeepScreenOn(true);
-        exoPlayer.prepare();
+        videoPlayerOperator.InitializeVideoPlayer(Uri.fromFile(new File(model.getMediaPath())));
+        binding.ExoPlayerVIew.setPlayer(videoPlayerOperator.getPlayer());
+        binding.ExoPlayerVIew.setKeepScreenOn(true);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        changeVideoStatue();
+        if (videoPlayerOperator.getPlayer() != null) {
+            videoPlayerOperator.stopVideo();
+            videoPlayerOperator.releaseVideo();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onStart: VideoFragment: is resume");
+        viewModel.selectItem(model);
+
+        if (videoPlayerOperator.getPlayer() != null) {
+            binding.img.setVisibility(View.VISIBLE);
+            binding.playVideo.setVisibility(View.VISIBLE);
+            binding.ExoPlayerVIew.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (videoPlayerOperator.getPlayer() != null) {
+            videoPlayerOperator.stopVideo();
+            videoPlayerOperator.releaseVideo();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-    }
 
+    }
 
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.video_back:
-                getActivity().finish();
-                break;
-            case R.id.video_share:
-                ShareMedia(Uri.parse(path));
-                break;
-            case R.id.video_more:
+            case R.id.playVideo:
+                binding.img.setVisibility(View.GONE);
+                binding.playVideo.setVisibility(View.GONE);
+                binding.ExoPlayerVIew.setVisibility(View.VISIBLE);
+                playVideo();
+
                 break;
             case R.id.exo_play:
                 changeVideoStatue();
@@ -135,6 +182,11 @@ public class videoFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.exo_unlock:
                 LockScreenOperator();
+                viewModel.clickedItem(true);
+                break;
+            case R.id.videoRoot:
+            case R.id.ExoPlayerVIew:
+                viewModel.clickedItem(true);
                 break;
         }
     }
@@ -153,36 +205,22 @@ public class videoFragment extends Fragment implements View.OnClickListener {
     }
 
     private void LockOperation(int Visibility) {
-        ToolbarView.setVisibility(Visibility);
         progressView.setVisibility(Visibility);
         operatorView.setVisibility(Visibility);
         fullScreenButton.setVisibility(Visibility);
     }
 
-    private void LandScape(){
+    private void LandScape() {
         // lock the current device orientation
         int currentOrientation = this.getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT){
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            Log.d("TAG", "LandScape: SCREEN_ORIENTATION_UNSPECIFIED");
-        }
-        else{
+        } else {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            Log.d("TAG", "LandScape: SCREEN_ORIENTATION_LANDSCAPE");
-
         }
     }
 
-    private void ShareMedia(Uri uri){
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        shareIntent.setType("video/*");
-        startActivity(Intent.createChooser(shareIntent, null));
-
-    }
-
-    private void changeVideoStatue(){
+    private void changeVideoStatue() {
         if (videoPlayerOperator.VideoStatue() == PAUSE_VIDEO)
             playButton.setImageResource(R.drawable.ic_baseline_play_circle_outline_24);
         else

@@ -46,7 +46,7 @@ public class FavouriteFragment extends Fragment {
     }
 
     private void SetupView() {
-        adapter = new MediaAdapter(new ArrayList<>(), getContext());
+        adapter = new MediaAdapter( getContext());
         binding.FavRecycler.setAdapter(adapter);
         binding.FavRecycler.setHasFixedSize(true);
 

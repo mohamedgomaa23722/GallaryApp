@@ -1,0 +1,32 @@
+<resources>
+
+    <style name="Widget.Theme.Gallary.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.Theme.Gallary.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <style name="whiteTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="Text_Color">@color/black</item>
+        <item name="StrockColor">@color/SelectedTab</item>
+    </style>
+
+    <style name="DarkTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="Text_Color">@color/white</item>
+        <item name="StrockColor">@color/SelectedTab</item>
+    </style>
+
+    <style name="Settingtext">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/Text_Color</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_marginStart">@dimen/_16sdp</item>
+        <item name="android:layout_marginEnd">@dimen/_16sdp</item>
+
+    </style>
+</resources>

@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="?attr/Text_Color"
         android:textSize="18sp"
         android:textStyle="bold"
         android:text="There is no item to show" />

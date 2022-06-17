@@ -4,22 +4,42 @@
     package="com.rajesh.gallary">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
         android:name=".mainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gallary">
         <activity
-            android:name=".ui.Activities.DisplayActivity"
+            android:name=".ui.Activities.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Activities.AlbumDisplayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Activities.FullscreenDisplayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            />
+            android:label="@string/title_activity_fullscreen_display"
+            android:theme="@style/Theme.Gallary.Fullscreen" />
+        <activity
+            android:name=".ui.Activities.EditPictureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Activities.DisplayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:theme="@style/Theme.Gallary.Fullscreen" />
         <activity
             android:name=".ui.Activities.SplashActivity"
             android:exported="true">
@@ -31,7 +51,14 @@
         </activity>
         <activity
             android:name=".ui.Activities.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
+        <activity android:name="com.dsphotoeditor.sdk.activity.DsPhotoEditorActivity" />
+        <activity android:name="com.dsphotoeditor.sdk.activity.DsPhotoEditorStickerActivity" />
+        <activity
+            android:name="com.dsphotoeditor.sdk.activity.DsPhotoEditorTextActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="com.dsphotoeditor.sdk.activity.DsPhotoEditorCropActivity" />
+        <activity android:name="com.dsphotoeditor.sdk.activity.DsPhotoEditorDrawActivity" />
     </application>
 
 </manifest>

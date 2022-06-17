@@ -14,7 +14,12 @@ public class DateAndMedia {
    public  DateOfMedia date;
     @Relation(
             parentColumn = MEDIA_DATE_ID,
-            entityColumn = MEDIA_DATE
+            entityColumn = MEDIA_DATE_ID
     )
    public List<mediaModel> mediaModelList;
+
+    public DateAndMedia(DateOfMedia date, List<mediaModel> mediaModelList) {
+        this.date = date;
+        this.mediaModelList = mediaModelList;
+    }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/details"
+        android:title="Details"
+        />
+    <item
+        android:id="@+id/MoveToVault"
+        android:title="Move To Vault"
+        />
+    <item
+        android:id="@+id/copyTo"
+        android:title="Copy To"
+        />
+
+    <item
+        android:id="@+id/slideShow"
+        android:title="Slide Show"
+        />
+    <item
+        android:id="@+id/setAsWallPaper"
+        android:title="Set as WallPaper"
+        />
+    <item
+        android:id="@+id/setAsLock"
+        android:title="Set as Lock"
+        />
+    <item
+        android:id="@+id/settings"
+        android:title="Settings"
+        />
+</menu>

@@ -1,10 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.Activities.MainActivity"
 
     >
     <item
         android:id="@+id/view_type"
-        android:title="@string/change_view_type" />
+        android:title="@string/change_view_type" >
+        <menu>
+            <item android:id="@+id/listView"
+                android:title="List View"
+                />
+            <item android:id="@+id/GridView"
+                android:title="Grid View"
+                />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/increaseColoumn"
+        android:title="Increase coloumn Count" />
+
+    <item
+        android:id="@+id/reduceColoumn"
+        android:title="Reduce coloumn Count" />
+
+
+    <item
+        android:id="@+id/filterByType"
+        android:icon="@drawable/ic_baseline_filter_alt_24"
+        android:title="@string/filter"
+        app:showAsAction="always">
+        <menu>
+            <group
+                android:id="@+id/filtergroup"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/allmedia"
+                    android:title="All"
+                    android:checked="true"/>
+                <item
+                    android:id="@+id/imageOnly"
+                    android:title="Image" />
+                <item
+                    android:id="@+id/videoOnly"
+                    android:title="Video" />
+            </group>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/FilterByDate"
+        android:icon="@drawable/ic_baseline_date_range_24"
+        android:title="date"
+        app:showAsAction="always">
+        <menu>
+            <group
+                android:id="@+id/FilterByDategroup"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/oldDate"
+                    android:title="Oldest" />
+                <item
+                    android:id="@+id/newDate"
+                    android:title="Newest"
+                    android:checked="true"/>
+                <item
+                    android:id="@+id/name"
+                    android:title="Name" />
+                <item
+                    android:id="@+id/size"
+                    android:title="Size" />
+            </group>
+        </menu>
+    </item>
     <item
         android:id="@+id/share_app"
         android:title="@string/share_app" />

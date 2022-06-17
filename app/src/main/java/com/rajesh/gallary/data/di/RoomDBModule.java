@@ -20,7 +20,8 @@ public class RoomDBModule {
 
     @Provides
     @Singleton
-    public static RoomDB provideDB(Application application){
+    public static RoomDB provideDB(Application application) {
+
         return Room.databaseBuilder(application, RoomDB.class, "Fav_DB")
                 .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
@@ -29,7 +30,10 @@ public class RoomDBModule {
 
     @Provides
     @Singleton
-    public static mediaDao provideDao(RoomDB mediaDB){
+    public static mediaDao provideDao(RoomDB mediaDB) {
         return mediaDB.mediaDao();
     }
+
+
+
 }

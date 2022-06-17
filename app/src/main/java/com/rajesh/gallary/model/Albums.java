@@ -16,13 +16,16 @@ public class Albums {
     private String albumID;
     @ColumnInfo(name = "albumName")
     private String albumName;
+    @ColumnInfo(name = "albumPath")
+    private String albumPath;
 
     public Albums() {
     }
 
-    public Albums(@NonNull String albumID, String albumName) {
+    public Albums(@NonNull String albumID, String albumName, String albumPath) {
         this.albumID = albumID;
         this.albumName = albumName;
+        this.albumPath = albumPath;
     }
 
     public String getAlbumID() {
@@ -39,5 +42,13 @@ public class Albums {
 
     public void setAlbumName(String albumName) {
         this.albumName = albumName;
+    }
+
+    public String getAlbumPath() {
+        return albumPath;
+    }
+
+    public void setAlbumPath(String albumPath) {
+        this.albumPath = albumPath;
     }
 }

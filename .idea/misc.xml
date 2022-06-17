@@ -4,24 +4,49 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../layout/custom_preview.xml" value="0.3484375" />
+        <entry key="app/src/main/res/drawable/ic_add_text_svgrepo_com.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_baseline_insert_photo_24.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_baseline_play_circle_filled_24.xml" value="0.297" />
         <entry key="app/src/main/res/drawable/ic_baseline_replay_10_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_draw_svgrepo_com.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_orientation.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_saturation.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_star_svgrepo_com.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_sticker.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/media_frame.xml" value="0.297" />
-        <entry key="app/src/main/res/layout/activity_display.xml" value="0.15729166666666666" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.9" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.15729166666666666" />
-        <entry key="app/src/main/res/layout/album_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout-v23/folders_bottom_sheet.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout/activity_album_display.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout/activity_display.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_edit_picture.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout/activity_fullscreen_display.xml" value="0.21" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_setting.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/album_item.xml" value="0.18" />
         <entry key="app/src/main/res/layout/custom_playback_view.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/delete_bottomsheet.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/details_layout.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/folder_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/folder_name_bottomsheet_layout.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/folders_bottom_sheet.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_album.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/fragment_all_media.xml" value="0.15729166666666666" />
         <entry key="app/src/main/res/layout/fragment_favourite.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_video.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/fragment_picture.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_video.xml" value="0.16" />
         <entry key="app/src/main/res/layout/item.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/media_grid_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/media_item.xml" value="0.31979166666666664" />
-        <entry key="app/src/main/res/layout/parent_media_item.xml" value="0.15729166666666666" />
-        <entry key="app/src/main/res/menu/main_menu.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/media_list_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/parent_media_item.xml" value="0.5" />
+        <entry key="app/src/main/res/menu/main_menu.xml" value="0.22" />
+        <entry key="app/src/main/res/menu/slider_menu.xml" value="0.33" />
       </map>
     </option>
   </component>

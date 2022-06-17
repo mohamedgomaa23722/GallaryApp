@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.rajesh.gallary.model.Albums;
 import com.rajesh.gallary.model.AlbumsAndMedia;
@@ -16,14 +17,16 @@ import com.rajesh.gallary.model.mediaModel;
 
 import java.util.List;
 
+import io.reactivex.Single;
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
 
 @Dao
 public interface mediaDao {
 
-    @Insert
-    Completable insertMedia (mediaModel mediaData);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Completable insertMedia(mediaModel mediaData);
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -36,14 +39,47 @@ public interface mediaDao {
     Completable deleteMedia(mediaModel mediaData);
 
     @Transaction
-    @Query("SELECT * FROM MEDIA_DATE_TABLE order by MEDIA_DATE_ID DESC")
+    @Query("SELECT * FROM MEDIA_DATE_TABLE order by mediaDate DESC")
     LiveData<List<DateAndMedia>> getAllMediaData();
 
     @Transaction
     @Query("Select * FROM ALBUM_TABLE")
     Observable<List<AlbumsAndMedia>> getAlbums();
 
+    @Transaction
+    @Query("Select * FROM ALBUM_TABLE where albumId=:albumId")
+    Maybe<List<AlbumsAndMedia>> getAlbumsByID(String albumId);
+
+    @Query("SELECT * from MEDIA_DATA_TABLE  order by MEDIA_DATE DESC")
+    LiveData<List<mediaModel>> getMediaTableData();
+
+    //Fav Queries
     @Query("SELECT * FROM MEDIA_DATA_TABLE where fav = :fav")
     Observable<List<mediaModel>> getFavMedia(boolean fav);
 
+    @Query("UPDATE MEDIA_DATA_TABLE set fav = :fav where MEDIA_PATH=:ID ")
+    Completable addToFav(String ID, boolean fav);
+
+
+    //Get Albums
+    @Query("Select * FROM MEDIA_DATA_TABLE where AlbumID =:albumID order by MEDIA_DATE DESC")
+    Observable<List<mediaModel>> getMediaByAlbum(String albumID);
+
+
+    // Get Media By it's Type Image Or video
+    @Query("Select * from MEDIA_DATA_TABLE where MEDIA_TYPE =:Type and AlbumID=:albumID")
+    LiveData<List<mediaModel>> GetAlbumMediaByType(String albumID, boolean Type);
+
+
+    //Update media data
+    @Update
+    Completable UpdateMedia(mediaModel mediaModel);
+
+    //Update media by set vault item
+    @Query("UPDATE MEDIA_DATA_TABLE set Vault = :vault where MEDIA_PATH=:ID ")
+    Completable AddMediaToVault(String ID, int vault);
+
+    //delete Album by id
+    @Query("Delete  from ALBUM_TABLE where albumId = :albumId")
+    Completable DeleteAlbum(String albumId);
 }

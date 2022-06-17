@@ -5,7 +5,11 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.Gallary"
+
     tools:context=".ui.Activities.MainActivity">
+
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -20,7 +24,6 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:backgroundTint="@color/black"
             android:elevation="0dp"
             app:menu="@menu/main_menu"
             app:navigationIconTint="@color/white"
@@ -31,10 +34,9 @@
             android:id="@+id/TabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
             app:tabIndicatorColor="@color/SelectedTab"
             app:tabSelectedTextColor="@color/SelectedTab"
-            app:tabTextColor="@color/white">
+            app:tabTextColor="?attr/Text_Color">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -55,15 +57,13 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <androidx.fragment.app.FragmentContainerView
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/main_nav"
-        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar"
-        app:navGraph="@navigation/main_navigation" />
+        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

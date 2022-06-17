@@ -6,11 +6,13 @@ import static com.rajesh.gallary.common.Constant.PLAY_VIDEO;
 import android.content.Context;
 import android.net.Uri;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SeekParameters;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
@@ -32,12 +34,13 @@ public class VideoPlayerOperator {
      * 3- seek to some position
      * 4- forward to some position
      */
-    public ExoPlayer InitializeVideoPlayer(Uri videoUri) {
+    public void InitializeVideoPlayer(Uri videoUri) {
+
         this.player = new ExoPlayer.Builder(context).build();
         this.player.setSeekParameters(new SeekParameters(10000, 10000));
         MediaItem mediaItem = MediaItem.fromUri(videoUri);
         this.player.setMediaItem(mediaItem);
-        return this.player;
+        player.prepare();
     }
 
     public void playVideo() {
@@ -56,9 +59,12 @@ public class VideoPlayerOperator {
         player.seekForward();
     }
 
-    public void fullScreen() {
+    public void releaseVideo() {
+        player.release();
     }
-
+    public void stopVideo(){
+        player.stop();
+    }
     public int VideoStatue() {
         if (CurrentState == PLAY_VIDEO) {
             PauseVideo();
@@ -70,11 +76,17 @@ public class VideoPlayerOperator {
         return CurrentState;
     }
 
+
+
     public boolean isLocked() {
         return isLocked;
     }
 
     public void setLocked(boolean locked) {
         isLocked = locked;
+    }
+
+    public ExoPlayer getPlayer() {
+        return player;
     }
 }

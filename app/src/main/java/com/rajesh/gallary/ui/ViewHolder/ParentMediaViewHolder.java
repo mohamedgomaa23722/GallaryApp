@@ -16,4 +16,8 @@ public class ParentMediaViewHolder extends RecyclerView.ViewHolder {
         Date = itemView.findViewById(R.id.Date);
         ChildRecycler = itemView.findViewById(R.id.ChildRec);
     }
+
+    public void InitializeChildAdapter(){
+
+    }
 }
