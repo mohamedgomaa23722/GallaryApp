@@ -3,12 +3,17 @@ package com.rajesh.gallary.utils;
 import static com.rajesh.gallary.common.Constant.GRID_COUNT;
 import static com.rajesh.gallary.common.Constant.IS_DATA_SAVED_IN_CACHE;
 import static com.rajesh.gallary.common.Constant.LAST_DATE;
+import static com.rajesh.gallary.common.Constant.QUESTION;
 import static com.rajesh.gallary.common.Constant.SHARED_P_NAME;
 import static com.rajesh.gallary.common.Constant.VIEW_TYPE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import androidx.annotation.NonNull;
+
+import com.rajesh.gallary.R;
 
 import javax.inject.Inject;
 
@@ -71,13 +76,50 @@ public class SavedData {
 
     /**
      * Save last data date updated
+     *
      * @param date
      */
     public void setLastDate(long date) {
-        sharedpreferences.edit().putLong(LAST_DATE, date+1).apply();
+        sharedpreferences.edit().putLong(LAST_DATE, date + 1).apply();
     }
 
     public long getLastDate() {
         return sharedpreferences.getLong(LAST_DATE, 0);
     }
+
+
+    /**
+     * Security Data
+     */
+    public void setSecurity(String flag, String value) {
+        sharedpreferences.edit().putString(flag, value).apply();
+
+    }
+
+    public String getSecurity(String flag) {
+        return sharedpreferences.getString(flag, "");
+    }
+
+    /**
+     * Integers values
+     */
+    public void setIntegerValue(String flag, int value) {
+        sharedpreferences.edit().putInt(flag, value).apply();
+    }
+
+    public int getIntegerValue(String flag) {
+        return sharedpreferences.getInt(flag, 2000);
+    }
+
+    /**
+     * boolean values
+     */
+    public void setBooleanValue(String flag, boolean value) {
+        sharedpreferences.edit().putBoolean(flag, value).apply();
+    }
+
+    public boolean getBooleanValue(String flag) {
+        return sharedpreferences.getBoolean(flag, true);
+    }
+
 }

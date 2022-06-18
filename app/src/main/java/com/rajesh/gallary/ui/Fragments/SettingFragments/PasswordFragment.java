@@ -1,4 +1,4 @@
-package com.rajesh.gallary.ui.Fragments;
+package com.rajesh.gallary.ui.Fragments.SettingFragments;
 
 import android.os.Bundle;
 
@@ -11,28 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rajesh.gallary.R;
-import com.rajesh.gallary.databinding.FragmentSettingsBinding;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
-
 @AndroidEntryPoint
-public class settingsFragment extends Fragment {
-
-   private FragmentSettingsBinding binding;
+public class PasswordFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentSettingsBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
+        return inflater.inflate(R.layout.fragment_password, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
     }
 }

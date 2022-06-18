@@ -7,6 +7,11 @@ import static com.rajesh.gallary.common.Constant.DATA;
 import static com.rajesh.gallary.common.Constant.EXTERNAL_IMAGE;
 import static com.rajesh.gallary.common.Constant.EXTERNAL_VIDEO;
 import static com.rajesh.gallary.common.Constant.IMAGE_PROJECTION;
+import static com.rajesh.gallary.common.Constant.INCLUDE_VIDEO;
+import static com.rajesh.gallary.common.Constant.LOOP_VIDEO;
+import static com.rajesh.gallary.common.Constant.SHARED_P_NAME;
+import static com.rajesh.gallary.common.Constant.THEME;
+import static com.rajesh.gallary.common.Constant.TIME;
 import static com.rajesh.gallary.common.Constant.VIDEO_PROJECTION;
 
 import androidx.annotation.NonNull;
@@ -24,8 +29,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
+import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -623,12 +630,26 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
      * Auto Slider for View pager Method
      */
     private void AutoSlider() {
+        int Time = savedData.getIntegerValue(TIME);
         AutoSliderHandler = new Handler();
         AutoSliderRunnable = () -> {
+
             if (CurrentPosition == TotalSize - 1) {
-                CurrentPosition = 0;
+                if (savedData.getBooleanValue(LOOP_VIDEO))
+                    CurrentPosition = 0;
+                else
+                    timer.cancel();
             }
-            binding.viewPager.setCurrentItem(CurrentPosition++, true);
+            if (!savedData.getBooleanValue(INCLUDE_VIDEO))
+                if (!data.isImage()) {
+                    binding.viewPager.setCurrentItem(CurrentPosition+2, false);
+                } else {
+                    binding.viewPager.setCurrentItem(CurrentPosition++, true);
+                }
+            else{
+                binding.viewPager.setCurrentItem(CurrentPosition++, true);
+            }
+
         };
         timer = new Timer(); // This will create a new Thread
         timer.schedule(new TimerTask() { // task to be scheduled
@@ -636,7 +657,7 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
             public void run() {
                 AutoSliderHandler.post(AutoSliderRunnable);
             }
-        }, 500, 3000);
+        }, 500, Time);
     }
 
     /**

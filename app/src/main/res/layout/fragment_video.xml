@@ -23,7 +23,7 @@
         app:shutter_background_color="#000000"
         app:surface_type="surface_view"
         app:use_controller="true"
-        tools:context=".ui.Fragments.videoFragment" />
+        tools:context=".ui.Fragments.DisplayFragments.videoFragment" />
 
     <ImageView
         android:id="@+id/img"

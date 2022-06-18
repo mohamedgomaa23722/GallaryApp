@@ -18,8 +18,7 @@ plugins {
 allprojects {
     repositories {
         jcenter()
-        google() // Google's Maven repository
-        flatDir {dirs 'libs'}
+        google() // Google's Maven repositoryflatDir {dirs 'libs'}
     }
 }
 

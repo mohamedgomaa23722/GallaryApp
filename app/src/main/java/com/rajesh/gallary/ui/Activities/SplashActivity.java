@@ -4,6 +4,8 @@ import static com.rajesh.gallary.common.Constant.EXTERNAL_IMAGE;
 import static com.rajesh.gallary.common.Constant.EXTERNAL_VIDEO;
 import static com.rajesh.gallary.common.Constant.IMAGE_PROJECTION;
 import static com.rajesh.gallary.common.Constant.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
+import static com.rajesh.gallary.common.Constant.SHARED_P_NAME;
+import static com.rajesh.gallary.common.Constant.THEME;
 import static com.rajesh.gallary.common.Constant.VIDEO_PROJECTION;
 
 import androidx.annotation.NonNull;
@@ -14,7 +16,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -57,42 +61,30 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        Ask_For_permission();
-        if (savedData.Is_Data_Saved()) {
+        if (savedData.Is_Data_Saved() && isPermissionGranted()) {
             Log.d(TAG, "onCreate: permion ");
             Toast.makeText(this, "Go to main", Toast.LENGTH_SHORT).show();
             GoToMain();
+        } else {
+            ApplyPermissions();
         }
     }
 
     private void SetupData() {
-//        ExecutorService executorService = Executors.newFixedThreadPool(50);
-//        Handler handler = new Handler(Looper.getMainLooper());
-//        executorService.execute(() -> {
-//            Log.d(TAG, "SetupData: initialize data");
-//            viewModel.initializeMediaData(EXTERNAL_IMAGE, IMAGE_PROJECTION, true);
-//            viewModel.initializeMediaData(EXTERNAL_VIDEO, VIDEO_PROJECTION, false);
-//
-//            handler.post(() -> {
-//                Log.d(TAG, "SetupData: observe data");
-//            });
-//        });
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "SetupData: initialize data");
-                viewModel.initializeMediaData(EXTERNAL_IMAGE, IMAGE_PROJECTION, true);
-                viewModel.initializeMediaData(EXTERNAL_VIDEO, VIDEO_PROJECTION, false);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        savedData.Saved_On_Cache(true);
-                        binding.finishp.setVisibility(View.INVISIBLE);
-                        GoToMain();
-                    }
-                });
-            }
-        }).start();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        Runnable runnable = () -> {
+            savedData.Saved_On_Cache(true);
+            binding.finishp.setVisibility(View.INVISIBLE);
+            GoToMain();
+        };
+        executorService.execute(() -> {
+            Log.d(TAG, "SetupData: initialize data");
+            viewModel.initializeMediaData(EXTERNAL_IMAGE, IMAGE_PROJECTION, true);
+            viewModel.initializeMediaData(EXTERNAL_VIDEO, VIDEO_PROJECTION, false);
+            handler.post(runnable);
+        });
+
     }
 
     private void GoToMain() {
@@ -101,14 +93,20 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
-    public boolean Ask_For_permission() {
+    public boolean isPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return requiredPermission.isPermissionGranted();
+        } else {
+            return requiredPermission.isPermissionGrantedForLoweApi();
+        }
+    }
+
+    private void ApplyPermissions() {
         requiredPermission.ReadPermission(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             requiredPermission.WritePermission(this);
-            return requiredPermission.isPermissionGranted();
         } else {
             requiredPermission.WritePermissionForLowerApi(this);
-            return requiredPermission.isPermissionGrantedForLoweApi();
         }
     }
 

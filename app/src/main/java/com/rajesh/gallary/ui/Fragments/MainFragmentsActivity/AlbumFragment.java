@@ -1,4 +1,4 @@
-package com.rajesh.gallary.ui.Fragments;
+package com.rajesh.gallary.ui.Fragments.MainFragmentsActivity;
 
 import static com.rajesh.gallary.common.Constant.ALBUM_DATA;
 import static com.rajesh.gallary.common.Constant.ALBUM_GRID_COUNT;

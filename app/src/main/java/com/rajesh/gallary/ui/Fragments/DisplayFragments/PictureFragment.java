@@ -1,8 +1,5 @@
-package com.rajesh.gallary.ui.Fragments;
+package com.rajesh.gallary.ui.Fragments.DisplayFragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,12 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.rajesh.gallary.databinding.FragmentPictureBinding;
 import com.rajesh.gallary.model.mediaModel;
-import com.rajesh.gallary.network.OnSliderItemClicked;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;

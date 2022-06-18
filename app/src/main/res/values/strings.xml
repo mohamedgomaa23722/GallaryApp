@@ -18,4 +18,29 @@
     <string name="share">Share</string>
     <string name="lock_instruction">Improve your security by using pattern, pin or finger print</string>
     <string name="filter">filter</string>
+
+    <array name="securityQuestions">
+        <item>What was your childhood nickname?</item>
+        <item>In what city did you meet your spouse/significant other?</item>
+        <item>What is the name of your favorite childhood friend?</item>
+        <item>What street did you live on in third grade?</item>
+        <item>What is your oldest sibling\’s birthday month and year? (e.g., January 1900)</item>
+        <item>What is the middle name of your youngest child?</item>
+        <item>What is your oldest sibling\'s middle name?</item>
+        <item>What school did you attend for sixth grade?</item>
+        <item>What was your childhood phone number including area code? (e.g., 000-000-0000)</item>
+        <item>What is your oldest cousin\'s first and last name?</item>
+        <item>What was the name of your first stuffed animal?</item>
+        <item>In what city or town did your mother and father meet?</item>
+        <item>Where were you when you had your first kiss?</item>
+        <item>What is the first name of the boy or girl that you first kissed?</item>
+        <item>What was the last name of your third grade teacher?</item>
+        <item>In what city does your nearest sibling live?</item>
+        <item>What is your youngest brother\’s birthday month and year? (e.g., January 1900)</item>
+        <item>What is your maternal grandmother\'s maiden name?</item>
+        <item>In what city or town was your first job?</item>
+        <item>What is the name of the place your wedding reception was held?</item>
+        <item>What is the name of a college you applied to but didn\'t attend?</item>
+        <item>Where were you when you first heard about 9/11?</item>
+    </array>
 </resources>

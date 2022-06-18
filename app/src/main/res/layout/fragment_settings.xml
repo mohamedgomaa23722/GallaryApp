@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Fragments.settingsFragment">
+    android:background="?attr/background"
+    tools:context=".ui.Fragments.SettingFragments.settingsFragment">
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -54,6 +55,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LockApp" />
 
+    <TextView
+        android:id="@+id/Vault"
+        style="@style/Settingtext"
+        android:layout_marginTop="16dp"
+        android:text="Secure Vault"
+        app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+        app:drawableTint="?attr/Text_Color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lockInstructions" />
+
+    <TextView
+        android:id="@+id/VaultInstructions"
+        style="@style/Settingtext"
+        android:layout_marginTop="2dp"
+        android:text="Keep your media secured by adding it to vault "
+        android:textSize="16sp"
+        android:textColor="@color/instructionColor"
+        app:drawableTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Vault" />
+
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/DarkTheme"
         style="@style/Settingtext"
@@ -62,7 +86,7 @@
         android:text="@string/dark_mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lockInstructions" />
+        app:layout_constraintTop_toBottomOf="@+id/VaultInstructions" />
 
     <RelativeLayout
         android:id="@+id/playbackLayout"
@@ -111,36 +135,50 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/TrashData"
-        style="@style/Settingtext"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:text="@string/clear_bin"
-        app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
-        app:drawableTint="?attr/Text_Color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playbackLayout" />
-
-    <TextView
         android:id="@+id/shareApp"
         style="@style/Settingtext"
         android:layout_marginTop="16dp"
         android:text="@string/share"
         app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
         app:drawableTint="?attr/Text_Color"
+        android:padding="@dimen/_8sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TrashData" />
+        app:layout_constraintTop_toBottomOf="@+id/SliderInstructions" />
 
     <TextView
         android:id="@+id/rateApp"
         style="@style/Settingtext"
         android:layout_marginTop="16dp"
         android:text="Rate"
+        android:padding="@dimen/_8sdp"
         app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
         app:drawableTint="?attr/Text_Color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shareApp" />
+
+    <TextView
+        android:id="@+id/Slider"
+        style="@style/Settingtext"
+        android:layout_marginTop="16dp"
+        android:text="Auto Slider"
+        app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+        app:drawableTint="?attr/Text_Color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playbackLayout" />
+
+    <TextView
+        android:id="@+id/SliderInstructions"
+        style="@style/Settingtext"
+        android:layout_marginTop="2dp"
+        android:text="Change Auto Slider For medias settings. "
+        android:textSize="16sp"
+        android:textColor="@color/instructionColor"
+        app:drawableTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Slider" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

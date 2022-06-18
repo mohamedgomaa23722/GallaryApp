@@ -20,7 +20,9 @@ import static com.rajesh.gallary.common.Constant.NAME_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.NEW_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.OLD_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.REDUCE_COLOUMN;
+import static com.rajesh.gallary.common.Constant.SHARED_P_NAME;
 import static com.rajesh.gallary.common.Constant.SIZE_MEDIA_FILTER;
+import static com.rajesh.gallary.common.Constant.THEME;
 import static com.rajesh.gallary.common.Constant.VIDEO_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.VIDEO_PROJECTION;
 
@@ -35,6 +37,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -73,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -178,6 +184,9 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
                 return true;
             case R.id.settings:
                 //go to settings
+                Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
             case R.id.newDate:
                 //Filter by newest date

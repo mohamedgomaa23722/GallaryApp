@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.rajesh.gallary.model.mediaModel;
-import com.rajesh.gallary.ui.Fragments.PictureFragment;
-import com.rajesh.gallary.ui.Fragments.videoFragment;
+import com.rajesh.gallary.ui.Fragments.DisplayFragments.PictureFragment;
+import com.rajesh.gallary.ui.Fragments.DisplayFragments.videoFragment;
 
 import java.util.List;
 

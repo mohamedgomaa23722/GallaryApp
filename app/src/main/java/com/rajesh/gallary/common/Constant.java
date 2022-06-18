@@ -49,8 +49,6 @@ public class Constant {
     };
 
 
-
-
     //Permission Request
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
@@ -64,8 +62,8 @@ public class Constant {
 
 
     //Menu Constants include Filters and actions
-    public static final String GRID_COUNT="GRID_COUNT";
-    public static final String VIEW_TYPE="VIEW_TYPE";
+    public static final String GRID_COUNT = "GRID_COUNT";
+    public static final String VIEW_TYPE = "VIEW_TYPE";
 
     public static final String LIST_VIEW_TYPE = "LIST_VIEW_TYPE";
     public static final String GRID_VIEW_TYPE = "GRID_VIEW_TYPE";
@@ -81,8 +79,8 @@ public class Constant {
 
 
     //Album constants
-    public static final String ALBUM_GRID_COUNT="ALBUM_GRID_COUNT";
-    public static final String ALBUM_VIEW_TYPE="ALBUM_VIEW_TYPE";
+    public static final String ALBUM_GRID_COUNT = "ALBUM_GRID_COUNT";
+    public static final String ALBUM_VIEW_TYPE = "ALBUM_VIEW_TYPE";
 
     public static final String ALBUM_LIST_VIEW_TYPE = "ALBUM_LIST_VIEW_TYPE";
     public static final String ALBUM_GRID_VIEW_TYPE = "ALBUM_GRID_VIEW_TYPE";
@@ -95,5 +93,19 @@ public class Constant {
     // Saved Data and Dates
     public static final String SHARED_P_NAME = "SHARED_DATA";
     public static final String IS_DATA_SAVED_IN_CACHE = "IS_SAVED";
-    public static final String LAST_DATE="LAST_DATE";
+    public static final String LAST_DATE = "LAST_DATE";
+
+
+    //Security Constants
+    public static final String QUESTION = "QUESTION";
+    public static final String ANSWER = "ANSWER";
+
+    //Theme
+    public static final String THEME="THEME";
+
+    //Slider
+    public static final String TIME="TIME";
+    public static final String INCLUDE_VIDEO="INCLUDE_VIDEO";
+    public static final String LOOP_VIDEO="LOOP_VIDEO";
+
 }

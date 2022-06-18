@@ -1,4 +1,4 @@
-package com.rajesh.gallary.ui.Fragments;
+package com.rajesh.gallary.ui.Fragments.MainFragmentsActivity;
 
 import android.os.Bundle;
 

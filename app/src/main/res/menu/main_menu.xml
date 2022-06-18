@@ -6,24 +6,44 @@
 
     >
     <item
-        android:id="@+id/view_type"
-        android:title="@string/change_view_type" >
+        android:id="@+id/more"
+        android:icon="@drawable/ic_baseline_more_vert_24"
+        android:orderInCategory="1"
+        android:title="more"
+        app:showAsAction="always">
+
         <menu>
-            <item android:id="@+id/listView"
-                android:title="List View"
-                />
-            <item android:id="@+id/GridView"
-                android:title="Grid View"
-                />
+            <item
+                android:id="@+id/view_type"
+                android:title="@string/change_view_type">
+                <menu>
+                    <item
+                        android:id="@+id/listView"
+                        android:title="List View" />
+                    <item
+                        android:id="@+id/GridView"
+                        android:title="Grid View" />
+                </menu>
+            </item>
+            <item
+                android:id="@+id/increaseColoumn"
+                android:title="Increase coloumn Count" />
+
+            <item
+                android:id="@+id/reduceColoumn"
+                android:title="Reduce coloumn Count" />
+
+            <item
+                android:id="@+id/share_app"
+                android:title="@string/share_app" />
+            <item
+                android:id="@+id/rate_us"
+                android:title="@string/rate_us" />
+            <item
+                android:id="@+id/settings"
+                android:title="@string/settings" />
         </menu>
     </item>
-    <item
-        android:id="@+id/increaseColoumn"
-        android:title="Increase coloumn Count" />
-
-    <item
-        android:id="@+id/reduceColoumn"
-        android:title="Reduce coloumn Count" />
 
 
     <item
@@ -37,8 +57,8 @@
                 android:checkableBehavior="single">
                 <item
                     android:id="@+id/allmedia"
-                    android:title="All"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:title="All" />
                 <item
                     android:id="@+id/imageOnly"
                     android:title="Image" />
@@ -63,8 +83,8 @@
                     android:title="Oldest" />
                 <item
                     android:id="@+id/newDate"
-                    android:title="Newest"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:title="Newest" />
                 <item
                     android:id="@+id/name"
                     android:title="Name" />
@@ -74,13 +94,5 @@
             </group>
         </menu>
     </item>
-    <item
-        android:id="@+id/share_app"
-        android:title="@string/share_app" />
-    <item
-        android:id="@+id/rate_us"
-        android:title="@string/rate_us" />
-    <item
-        android:id="@+id/settings"
-        android:title="@string/settings" />
+
 </menu>

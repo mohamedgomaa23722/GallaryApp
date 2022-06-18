@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.Fragments.AlbumFragment">
+    tools:context=".ui.Fragments.MainFragmentsActivity.AlbumFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView

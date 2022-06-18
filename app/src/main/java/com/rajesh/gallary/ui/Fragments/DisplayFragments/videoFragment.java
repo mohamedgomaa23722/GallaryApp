@@ -1,9 +1,8 @@
-package com.rajesh.gallary.ui.Fragments;
+package com.rajesh.gallary.ui.Fragments.DisplayFragments;
 
 import static com.rajesh.gallary.common.Constant.PAUSE_VIDEO;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -21,11 +20,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.FragmentVideoBinding;
 import com.rajesh.gallary.model.mediaModel;

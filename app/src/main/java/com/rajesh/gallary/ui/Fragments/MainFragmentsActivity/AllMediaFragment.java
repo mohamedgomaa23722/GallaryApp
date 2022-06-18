@@ -1,4 +1,4 @@
-package com.rajesh.gallary.ui.Fragments;
+package com.rajesh.gallary.ui.Fragments.MainFragmentsActivity;
 
 import static com.rajesh.gallary.common.Constant.ALL_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.DATA;

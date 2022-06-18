@@ -136,4 +136,14 @@ dependencies {
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
+
+    implementation 'io.paperdb:paperdb:2.0'
+    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
+    implementation 'com.shuhart.stepview:stepview:1.5.1'
+    //
+    //pin view
+    implementation 'io.github.chaosleung:pinview:1.4.4'
+    //Bio
+    implementation 'androidx.biometric:biometric:1.1.0'
+
 }

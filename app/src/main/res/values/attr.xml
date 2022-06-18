@@ -4,6 +4,7 @@
         <attr name="fullscreenTextColor" format="color" />
     </declare-styleable>
 
+    <attr name="background" format="reference" />
     <attr name="Text_Color" format="reference" />
     <attr name="StrockColor" format="reference" />
 </resources>

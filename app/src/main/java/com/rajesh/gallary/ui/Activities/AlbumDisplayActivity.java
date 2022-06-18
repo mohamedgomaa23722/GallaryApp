@@ -11,7 +11,9 @@ import static com.rajesh.gallary.common.Constant.LIST_VIEW_TYPE;
 import static com.rajesh.gallary.common.Constant.NEW_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.OLD_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.REDUCE_COLOUMN;
+import static com.rajesh.gallary.common.Constant.SHARED_P_NAME;
 import static com.rajesh.gallary.common.Constant.SIZE_MEDIA_FILTER;
+import static com.rajesh.gallary.common.Constant.THEME;
 import static com.rajesh.gallary.common.Constant.VIDEO_MEDIA_FILTER;
 
 import androidx.annotation.NonNull;
@@ -23,7 +25,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -129,7 +133,7 @@ public class AlbumDisplayActivity extends AppCompatActivity implements onItemCli
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -152,7 +156,7 @@ public class AlbumDisplayActivity extends AppCompatActivity implements onItemCli
             case R.id.GridView:
                 // change view type grid or list of items
                 adapter.setViewType(0);
-                binding.albumRecycler.setLayoutManager(new GridLayoutManager(this,savedData.getGridCount(GRID_COUNT)));
+                binding.albumRecycler.setLayoutManager(new GridLayoutManager(this, savedData.getGridCount(GRID_COUNT)));
                 ViewType = GRID_VIEW_TYPE;
                 SetMenuItemVisible(menu, true);
                 return true;
@@ -160,7 +164,7 @@ public class AlbumDisplayActivity extends AppCompatActivity implements onItemCli
                 //Reduce coloumn size
                 viewModel.setMenuOperation(REDUCE_COLOUMN);
                 if (savedData.getGridCount(GRID_COUNT) != 1) {
-                    savedData.SetGridCount(savedData.getGridCount(GRID_COUNT) - 1,GRID_COUNT);
+                    savedData.SetGridCount(savedData.getGridCount(GRID_COUNT) - 1, GRID_COUNT);
                     binding.albumRecycler.setLayoutManager(new GridLayoutManager(this, savedData.getGridCount(GRID_COUNT)));
                     adapter.setGridCount(savedData.getGridCount(GRID_COUNT));
                     adapter.notifyDataSetChanged();
@@ -170,7 +174,7 @@ public class AlbumDisplayActivity extends AppCompatActivity implements onItemCli
             case R.id.increaseColoumn:
                 //increase coloumn size
                 viewModel.setMenuOperation(INCREASE_COLOUMN);
-                savedData.SetGridCount(savedData.getGridCount(GRID_COUNT) + 1,GRID_COUNT);
+                savedData.SetGridCount(savedData.getGridCount(GRID_COUNT) + 1, GRID_COUNT);
                 binding.albumRecycler.setLayoutManager(new GridLayoutManager(this, savedData.getGridCount(GRID_COUNT)));
                 adapter.setGridCount(savedData.getGridCount(GRID_COUNT));
                 adapter.notifyDataSetChanged();
