@@ -146,4 +146,8 @@ dependencies {
     //Bio
     implementation 'androidx.biometric:biometric:1.1.0'
 
+    implementation 'io.github.itsxtt:pattern-lock:0.2.0'
+
+    implementation 'com.google.android.gms:play-services-ads:21.0.0'
+
 }

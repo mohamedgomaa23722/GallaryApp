@@ -74,26 +74,27 @@ public class MediaRepository {
 
     /**
      * Delete Album Data
+     *
      * @param albumId
      * @return
      */
-    public Completable deleteAlbum(String albumId){
+    public Completable deleteAlbum(String albumId) {
         return mediaDao.DeleteAlbum(albumId);
     }
 
     public LiveData<List<mediaModel>> getMediaTableData(int vault) {
-        return mediaDao.getMediaTableData();
+        return mediaDao.getMediaTableData(vault);
     }
 
     public Observable<List<mediaModel>> getFavMedia() {
-        return mediaDao.getFavMedia(true);
+        return mediaDao.getFavMedia(true, 0);
     }
 
     public Observable<List<AlbumsAndMedia>> getAlbums() {
         return mediaDao.getAlbums();
     }
 
-    public LiveData<List<DateAndMedia>> GetAllMedia() {
+    public Observable<List<DateAndMedia>> GetAllMedia() {
         return mediaDao.getAllMediaData();
     }
 
@@ -104,7 +105,7 @@ public class MediaRepository {
 
     //Get media by album
     public Observable<List<mediaModel>> getMediaByAlbum(String albumID) {
-        return mediaDao.getMediaByAlbum(albumID);
+        return mediaDao.getMediaByAlbum(albumID, 0);
     }
 
     //Get media for some specific album by it's type
@@ -125,7 +126,7 @@ public class MediaRepository {
     /**
      * Return Album by id
      */
-    public Maybe<List<AlbumsAndMedia>> getAlbumsByID(String AlbumId){
+    public Maybe<List<AlbumsAndMedia>> getAlbumsByID(String AlbumId) {
         return mediaDao.getAlbumsByID(AlbumId);
     }
 

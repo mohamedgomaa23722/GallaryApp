@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.Fragments.SettingFragments.vaultFragmnet">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/VaultBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:drawableStart="@drawable/ic_baseline_arrow_back_24"
+        android:drawablePadding="@dimen/_10sdp"
+        android:gravity="center"
+        android:text="Private Media"
+        android:textColor="?attr/Text_Color"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+     <View
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/_1sdp"
+         android:background="@color/instructionColor"
+         android:layout_marginTop="@dimen/_5sdp"
+         android:layout_marginStart="@dimen/_10sdp"
+         android:layout_marginEnd="@dimen/_10sdp"
+         />
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/VaultRecucler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:spanCount="3" />
 
-</FrameLayout>
+</LinearLayout>

@@ -6,6 +6,7 @@ import static com.rajesh.gallary.common.Constant.ALBUM_DATA;
 import static com.rajesh.gallary.common.Constant.DATA;
 import static com.rajesh.gallary.common.Constant.EXTERNAL_IMAGE;
 import static com.rajesh.gallary.common.Constant.EXTERNAL_VIDEO;
+import static com.rajesh.gallary.common.Constant.FROM_VAULT_TO_SETTINGS;
 import static com.rajesh.gallary.common.Constant.IMAGE_PROJECTION;
 import static com.rajesh.gallary.common.Constant.INCLUDE_VIDEO;
 import static com.rajesh.gallary.common.Constant.LOOP_VIDEO;
@@ -65,14 +66,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.rajesh.gallary.Adapter.SliderAdapter;
 import com.rajesh.gallary.Adapter.folderAdapter;
-import com.rajesh.gallary.BuildConfig;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.ActivityDisplayBinding;
 import com.rajesh.gallary.model.AlbumsAndMedia;
 import com.rajesh.gallary.model.mediaModel;
 import com.rajesh.gallary.network.onAlbumClicked;
+import com.rajesh.gallary.ui.BottomSheetss.CopyBottomSheet;
+import com.rajesh.gallary.ui.BottomSheetss.DeleteBottomSheet;
+import com.rajesh.gallary.ui.BottomSheetss.DetailsBottomSheet;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
 import com.rajesh.gallary.utils.SavedData;
+import com.rajesh.gallary.utils.ShareAndRateHelper;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -86,6 +90,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
@@ -105,8 +110,7 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
     private MainViewModel viewModel;
     SliderAdapter sliderAdapter;
     private boolean isClicked = true;
-    @Inject
-    folderAdapter adapter;
+
     @Inject
     SavedData savedData;
 
@@ -114,7 +118,9 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
     private int TotalSize;
     private Handler AutoSliderHandler;
     private Runnable AutoSliderRunnable;
-    Timer timer;
+    private Timer timer;
+    private boolean StopSlider = false;
+    private List<mediaModel> mediaModels = new ArrayList<>();
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -133,13 +139,11 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void SetUpView() {
-
         //Handle Onclick
         binding.AddTofav.setOnClickListener(this);
         binding.edit.setOnClickListener(this);
         binding.share.setOnClickListener(this);
         binding.delete.setOnClickListener(this);
-
     }
 
     private void SetUpData() {
@@ -147,16 +151,38 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
         data = (mediaModel) intent.getSerializableExtra(DATA);
         String AlbumId = intent.getStringExtra(ALBUM_DATA);
         Log.d("TAG", "SetUpData: " + AlbumId + ",date:" + data.getMediaDate());
-        if (AlbumId == null)
+        boolean IsVault = intent.getBooleanExtra(FROM_VAULT_TO_SETTINGS, false);
+        boolean Isfav = intent.getBooleanExtra("FAV", false);
+        if (AlbumId == null && !IsVault && !Isfav)
             viewModel.getMediaTableData(0).observe(this, MediaResponse -> {
                 sliderAdapter = new SliderAdapter(this, MediaResponse);
                 binding.viewPager.setAdapter(sliderAdapter);
                 CurrentPosition = getItemPosition(data.getMediaDate(), MediaResponse);
                 TotalSize = MediaResponse.size();
                 binding.viewPager.setCurrentItem(CurrentPosition, false);
-                Log.d("TAG", "SetUpData: " + MediaResponse.get(0).getVault());
+                mediaModels.addAll(MediaResponse);
             });
-        else {
+        else if (IsVault) {
+            viewModel.getMediaTableData(1).observe(this, MediaResponse -> {
+                sliderAdapter = new SliderAdapter(this, MediaResponse);
+                binding.viewPager.setAdapter(sliderAdapter);
+                CurrentPosition = getItemPosition(data.getMediaDate(), MediaResponse);
+                TotalSize = MediaResponse.size();
+                binding.viewPager.setCurrentItem(CurrentPosition, false);
+                mediaModels.addAll(MediaResponse);
+            });
+        } else if (Isfav) {
+            viewModel.InitializeFavMedia();
+            viewModel.getFavMedia().observe(this, MediaResponse -> {
+                sliderAdapter = new SliderAdapter(this, MediaResponse);
+                binding.viewPager.setAdapter(sliderAdapter);
+                CurrentPosition = getItemPosition(data.getMediaDate(), MediaResponse);
+                TotalSize = MediaResponse.size();
+                binding.viewPager.setCurrentItem(CurrentPosition, false);
+                Log.d("TAG", "SetUpData: " + MediaResponse.get(0).getVault());
+                mediaModels.addAll(MediaResponse);
+            });
+        } else {
             viewModel.InitializeMediaByAlbumData(AlbumId);
             viewModel.getMediaByAlbum().observe(this, MediaResponse -> {
                 sliderAdapter = new SliderAdapter(this, MediaResponse);
@@ -164,11 +190,14 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
                 CurrentPosition = getItemPosition(data.getMediaDate(), MediaResponse);
                 TotalSize = MediaResponse.size();
                 binding.viewPager.setCurrentItem(CurrentPosition, false);
+                mediaModels.addAll(MediaResponse);
             });
         }
 
         viewModel.getSelectedItem().observe(this, mediaResponse -> {
             Objects.requireNonNull(getSupportActionBar()).setTitle(mediaResponse.getMediaName());
+            CurrentPosition = mediaModels.indexOf(mediaResponse);
+
             if (!mediaResponse.isImage()) {
                 binding.edit.setVisibility(View.GONE);
             } else {
@@ -187,10 +216,11 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
             if (isClicked) {
                 getWindow().getDecorView().setSystemUiVisibility(View.VISIBLE);
                 binding.OperationView.setVisibility(View.VISIBLE);
-                if (AutoSliderHandler != null) {
+                if (!StopSlider && AutoSliderHandler !=null) {
                     AutoSliderHandler.removeCallbacks(AutoSliderRunnable);
                     Toast.makeText(this, "Slider stopped", Toast.LENGTH_SHORT).show();
                     timer.cancel();
+                    StopSlider = true;
                 }
             } else {
                 getWindow().getDecorView().setSystemUiVisibility(hideSystemBars());
@@ -201,6 +231,8 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+
     }
 
     private int hideSystemBars() {
@@ -300,7 +332,6 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
      */
     private void EditImage() {
         Intent intent = new Intent(getApplicationContext(), DsPhotoEditorActivity.class);
-        Toast.makeText(this, "" + data.getMediaPath(), Toast.LENGTH_SHORT).show();
         intent.setData(Uri.fromFile(new File(data.getMediaPath())));
         //set out direc
         intent.putExtra(DsPhotoEditorConstants.DS_PHOTO_EDITOR_OUTPUT_DIRECTORY,
@@ -373,20 +404,8 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
     @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
     private void DisplayDetailsSheet() {
         //Initialize bottom sheet
-        final BottomSheetDialog detailsBottomSheet = new BottomSheetDialog(this);
-        detailsBottomSheet.setContentView(R.layout.details_layout);
-        //Define Views
-        TextView Name_txt = detailsBottomSheet.findViewById(R.id.Media_Name_txt);
-        TextView Path_txt = detailsBottomSheet.findViewById(R.id.Media_Path_txt);
-        TextView Size_txt = detailsBottomSheet.findViewById(R.id.Media_Size_txt);
-        TextView Date_txt = detailsBottomSheet.findViewById(R.id.Media_Date_txt);
-        //observe data into the view
-        Name_txt.setText("Name : " + data.getMediaName());
-        Path_txt.setText("Path : " + data.getMediaPath());
-        Size_txt.setText("Size : " + sizeConverter(data.getMediaSize()));
-        Date_txt.setText("Created On : " + new SimpleDateFormat("dd MMM ,yyyy").format(data.getMediaDate() * 1000));
-        //show BottomSheet
-        detailsBottomSheet.show();
+        DetailsBottomSheet frag = new DetailsBottomSheet(data);
+        frag.show(getSupportFragmentManager(), "Details");
     }
 
     /**
@@ -396,182 +415,24 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
      */
     public void DisplayCopyBottomSheet(boolean isCopy) {
         //Initialize Bottom Sheet
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.folders_bottom_sheet);
-        //Set Parameter
-        DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
-        // Define Views
-        ConstraintLayout layout = bottomSheetDialog.findViewById(R.id.Folder_root);
-        Button CreateNewAlbum_Btn = bottomSheetDialog.findViewById(R.id.CreateNewAlbum);
-        RecyclerView recyclerView = bottomSheetDialog.findViewById(R.id.FolderRecyclerView);
-        // Set Param to the parent
-        FrameLayout.LayoutParams br = new FrameLayout.LayoutParams(MATCH_PARENT, (int) (displayMetrics.heightPixels * 3 / 4));
-        layout.setLayoutParams(br);
-        //Setup recycler view to Show all albums
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
-        // Observe Data on recycler view
-        viewModel.initializeAlbumsData();
-        viewModel.getAlbums().observe(this, albumsAndMedia -> {
-            adapter.setAlbumsAndMedia(albumsAndMedia);
-        });
-        //Onclick listener Actions
-        adapter.setOnAlbumClicked(folder -> {
-            try {
-                String FolderPath = folder.mediaModelList.get(0).getMediaPath().substring(0, folder.mediaModelList.get(0).getMediaPath().lastIndexOf("/"));
-                String ImagePath = data.getMediaPath().substring(data.getMediaPath().lastIndexOf("/") + 1);
-
-                Uri folderUri = Uri.parse(FolderPath);
-                Uri ImageUri = Uri.parse(data.getMediaPath());
-
-                data.setAlbumID(folder.albums.getAlbumID());
-                data.setMediaPath(FolderPath + "/" + ImagePath);
-                Log.d("TAG", "DisplayBottomSheet: " + folder.albums.getAlbumID());
-                copyOrMoveFile(new File(ImageUri.getPath() + "/"), new File(folderUri.getPath() + "/"), true, "");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            bottomSheetDialog.dismiss();
-        });
-
-        //Create New folder Handling
-        CreateNewAlbum_Btn.setOnClickListener(view -> {
-            DisplayCreateFolderBottomSheet();
-        });
-
-        bottomSheetDialog.show();
-    }
-
-    /**
-     * Display the Create Folder Bottom Sheet Method
-     */
-    public void DisplayCreateFolderBottomSheet() {
-        final BottomSheetDialog FolderNameBottomSheet = new BottomSheetDialog(this);
-        FolderNameBottomSheet.setContentView(R.layout.folder_name_bottomsheet_layout);
-        // Define View Att
-        TextInputEditText Folder_Edx = FolderNameBottomSheet.findViewById(R.id.Folder_Name_EDX);
-        Button Folder_Ok = FolderNameBottomSheet.findViewById(R.id.folder_ok_Btn);
-        Button Folder_Cancle = FolderNameBottomSheet.findViewById(R.id.folder_cancle_Btn);
-        //Handle on Click Operations
-        Folder_Ok.setOnClickListener(v -> {
-            //when User click ok as create the new file and copy the value to it
-            String FolderName = Folder_Edx.getText().toString();
-            //Create folder
-            if (FolderName.length() > 0) {
-                try {
-                    createNewFile(FolderName);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else
-                //Set error
-                Toast.makeText(this, "Please Enter the name", Toast.LENGTH_SHORT).show();
-            FolderNameBottomSheet.dismiss();
-        });
-
-        Folder_Cancle.setOnClickListener(v -> {
-            //when user click on cancel to avoid any changes
-            FolderNameBottomSheet.dismiss();
-        });
-
-        // show the bottom sheet
-        FolderNameBottomSheet.show();
+        CopyBottomSheet frag = new CopyBottomSheet(data);
+        frag.show(getSupportFragmentManager(), "Copy");
     }
 
     /**
      * Display Delete Bottom Sheet
      */
     public void DisplayDeleteBottomSheet() {
-        //Initialize Bottom Sheet
-        final BottomSheetDialog deleteBottomSheet = new BottomSheetDialog(this);
-        deleteBottomSheet.setContentView(R.layout.delete_bottomsheet);
-        //define Views
-        Button Delete_Ok = deleteBottomSheet.findViewById(R.id.delete_ok_Btn);
-        Button Delete_Cancel = deleteBottomSheet.findViewById(R.id.delete_cancle_Btn);
-        //Handle on Click Operations
-        Delete_Ok.setOnClickListener(v -> {
-            if (data.isImage())
-                viewModel.DeleteImage(EXTERNAL_IMAGE, data);
-            else
-                viewModel.DeleteImage(EXTERNAL_VIDEO, data);
-            viewModel.deleteMedia(data);
-
-            viewModel.getMediaByAlbum().observe(this, mediaModelList -> {
-                if (mediaModelList.size() == 0) {
-                    viewModel.deleteAlbum(data.getAlbumID());
-                    finish();
-                }
-            });
-            deleteBottomSheet.dismiss();
-        });
-
-        Delete_Cancel.setOnClickListener(v -> {
-            deleteBottomSheet.dismiss();
-        });
-
-        // show the bottom sheet
-        deleteBottomSheet.show();
+        DeleteBottomSheet frag = new DeleteBottomSheet(data);
+        frag.show(getSupportFragmentManager(), "Delete");
     }
 
-    private void copyOrMoveFile(File ImageFile, File CopyTO, boolean isCopy, String Name) throws IOException {
-        File newFile = new File(CopyTO, ImageFile.getName());
-        try (FileChannel outputChannel = new FileOutputStream(newFile).getChannel(); FileChannel inputChannel = new FileInputStream(ImageFile).getChannel()) {
-            inputChannel.transferTo(0, inputChannel.size(), outputChannel);
-            inputChannel.close();
-            if (!isCopy) {
-                //delete the media from table and storage
-                //Update media from room db table
-                data.setMediaPath(CopyTO.getPath() + "/" + data.getMediaName());
-                Log.d("TAG", "copyOrMoveFile: " + data.getMediaPath());
-                if (data.isImage())
-                    viewModel.insertMediaForNewAlbum(EXTERNAL_IMAGE, data, IMAGE_PROJECTION, Name);
-                else
-                    viewModel.insertMediaForNewAlbum(EXTERNAL_VIDEO, data, VIDEO_PROJECTION, Name);
-            } else {
-                //at here we only move not deleting media
-                // inset new media
-                // Create new Object of our model
-                final mediaModel mediaModel = new mediaModel();
-                //set values of selected media
-                mediaModel.setMediaDate(data.getMediaDate());
-                mediaModel.setMediaDateId(data.getMediaDateId());
-                mediaModel.setMediaSize(data.getMediaSize());
-                mediaModel.setMediaPath(data.getMediaPath());
-                mediaModel.setFav(data.isFav());
-                mediaModel.setImage(data.isImage());
-                mediaModel.setMediaName(data.getMediaName());
-                mediaModel.setSelected(data.getSelected());
-                mediaModel.setAlbumID(data.getAlbumID());
-                mediaModel.setMediaID(data.getMediaID());
-                mediaModel.setVault(data.getVault());
-                //Insert data
-                if (data.isImage())
-                    viewModel.insertMedia(EXTERNAL_IMAGE, mediaModel, IMAGE_PROJECTION);
-                else
-                    viewModel.insertMedia(EXTERNAL_VIDEO, mediaModel, VIDEO_PROJECTION);
-
-            }
-        }
-        viewModel.RefreshData();
-    }
-
-    private File createNewFile(String Name) throws IOException {
-        File file = new File(Environment.getExternalStorageDirectory(), Name);
-        if (!file.exists()) {
-            file.mkdir();
-            Toast.makeText(this, "Successful", Toast.LENGTH_SHORT).show();
-            copyOrMoveFile(new File(data.getMediaPath() + "/"), new File(Uri.fromFile(file).getPath() + "/"), false, Name);
-        } else {
-            Toast.makeText(this, "Folder Already Exists", Toast.LENGTH_SHORT).show();
-        }
-        return file;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.slider_menu, menu);
+        if (data.getVault() == 1)
+            menu.findItem(R.id.MoveToVault).setTitle("Unhide");
         return true;
     }
 
@@ -586,8 +447,12 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
                 DisplayCopyBottomSheet(true);
                 return true;
             case R.id.MoveToVault:
-                viewModel.UpdateImage(data, MODE_PRIVATE, data.getMediaID());
-//                viewModel.AddMediaToVault(data.getMediaPath(), true);
+                if (data.getVault() == 0) {
+                    data.setVault(1);
+                } else {
+                    data.setVault(0);
+                }
+                viewModel.UpdateMedia(data);
                 Toast.makeText(this, "Successfully Added", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.slideShow:
@@ -600,6 +465,8 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
                 SetAsWallpaper(new File(data.getMediaPath()), false);
                 return true;
             case R.id.settings:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
                 return true;
             case android.R.id.home:
                 finish();
@@ -609,44 +476,29 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
-     * Get The Size of the media item Converter
-     *
-     * @param size
-     * @return
-     */
-    private String sizeConverter(String size) {
-        float converterSize = Float.parseFloat(size) / 1000f;
-        if (converterSize < 1000)
-            return converterSize + " KB";
-        else if (converterSize > 1000) {
-            converterSize = converterSize / 1000;
-            return converterSize + "MB";
-        } else {
-            return (converterSize / 1000) + "G";
-        }
-    }
-
-    /**
      * Auto Slider for View pager Method
      */
     private void AutoSlider() {
+        StopSlider = false;
         int Time = savedData.getIntegerValue(TIME);
         AutoSliderHandler = new Handler();
         AutoSliderRunnable = () -> {
 
             if (CurrentPosition == TotalSize - 1) {
-                if (savedData.getBooleanValue(LOOP_VIDEO))
+                if (savedData.getBooleanValue(LOOP_VIDEO, true))
                     CurrentPosition = 0;
-                else
+                else {
+                    StopSlider = true;
                     timer.cancel();
+                }
             }
-            if (!savedData.getBooleanValue(INCLUDE_VIDEO))
-                if (!data.isImage()) {
-                    binding.viewPager.setCurrentItem(CurrentPosition+2, false);
+            if (!savedData.getBooleanValue(INCLUDE_VIDEO, true))
+                if (!mediaModels.get(CurrentPosition).isImage()) {
+                    binding.viewPager.setCurrentItem(CurrentPosition + 1, false);
                 } else {
                     binding.viewPager.setCurrentItem(CurrentPosition++, true);
                 }
-            else{
+            else {
                 binding.viewPager.setCurrentItem(CurrentPosition++, true);
             }
 

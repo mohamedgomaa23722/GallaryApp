@@ -40,7 +40,7 @@ public interface mediaDao {
 
     @Transaction
     @Query("SELECT * FROM MEDIA_DATE_TABLE order by mediaDate DESC")
-    LiveData<List<DateAndMedia>> getAllMediaData();
+    Observable<List<DateAndMedia>> getAllMediaData();
 
     @Transaction
     @Query("Select * FROM ALBUM_TABLE")
@@ -50,20 +50,20 @@ public interface mediaDao {
     @Query("Select * FROM ALBUM_TABLE where albumId=:albumId")
     Maybe<List<AlbumsAndMedia>> getAlbumsByID(String albumId);
 
-    @Query("SELECT * from MEDIA_DATA_TABLE  order by MEDIA_DATE DESC")
-    LiveData<List<mediaModel>> getMediaTableData();
+    @Query("SELECT * from MEDIA_DATA_TABLE where Vault=:v  order by MEDIA_DATE DESC")
+    LiveData<List<mediaModel>> getMediaTableData(int v);
 
     //Fav Queries
-    @Query("SELECT * FROM MEDIA_DATA_TABLE where fav = :fav")
-    Observable<List<mediaModel>> getFavMedia(boolean fav);
+    @Query("SELECT * FROM MEDIA_DATA_TABLE where fav = :fav and Vault=:v")
+    Observable<List<mediaModel>> getFavMedia(boolean fav,int v);
 
     @Query("UPDATE MEDIA_DATA_TABLE set fav = :fav where MEDIA_PATH=:ID ")
     Completable addToFav(String ID, boolean fav);
 
 
     //Get Albums
-    @Query("Select * FROM MEDIA_DATA_TABLE where AlbumID =:albumID order by MEDIA_DATE DESC")
-    Observable<List<mediaModel>> getMediaByAlbum(String albumID);
+    @Query("Select * FROM MEDIA_DATA_TABLE where AlbumID =:albumID And Vault=:v order by MEDIA_DATE DESC")
+    Observable<List<mediaModel>> getMediaByAlbum(String albumID,int v);
 
 
     // Get Media By it's Type Image Or video

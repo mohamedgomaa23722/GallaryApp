@@ -41,6 +41,7 @@ public class VideoPlayerOperator {
         MediaItem mediaItem = MediaItem.fromUri(videoUri);
         this.player.setMediaItem(mediaItem);
         player.prepare();
+
     }
 
     public void playVideo() {
@@ -59,12 +60,21 @@ public class VideoPlayerOperator {
         player.seekForward();
     }
 
+    public long getCurrentPosition() {
+        return player.getCurrentPosition();
+    }
+
+    public void seekTo(long position){
+        player.seekTo(position);
+    }
     public void releaseVideo() {
         player.release();
     }
-    public void stopVideo(){
+
+    public void stopVideo() {
         player.stop();
     }
+
     public int VideoStatue() {
         if (CurrentState == PLAY_VIDEO) {
             PauseVideo();
@@ -75,7 +85,6 @@ public class VideoPlayerOperator {
         }
         return CurrentState;
     }
-
 
 
     public boolean isLocked() {

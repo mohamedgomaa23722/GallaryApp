@@ -1,6 +1,7 @@
 package com.rajesh.gallary.ui.Fragments.DisplayFragments;
 
 import static com.rajesh.gallary.common.Constant.PAUSE_VIDEO;
+import static com.rajesh.gallary.common.Constant.PLAY_BACK_ENABLE;
 
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
@@ -26,6 +27,7 @@ import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.FragmentVideoBinding;
 import com.rajesh.gallary.model.mediaModel;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
+import com.rajesh.gallary.utils.SavedData;
 import com.rajesh.gallary.utils.VideoPlayerOperator;
 
 import java.io.File;
@@ -42,6 +44,8 @@ public class videoFragment extends Fragment implements View.OnClickListener {
     private mediaModel model;
     @Inject
     VideoPlayerOperator videoPlayerOperator;
+    @Inject
+    SavedData savedData;
     private ImageView playButton, seekBackButton, seekForwardButton, lockButton, fullScreenButton;
     private LinearLayout operatorView;
     private RelativeLayout progressView;
@@ -106,6 +110,8 @@ public class videoFragment extends Fragment implements View.OnClickListener {
         videoPlayerOperator.InitializeVideoPlayer(Uri.fromFile(new File(model.getMediaPath())));
         binding.ExoPlayerVIew.setPlayer(videoPlayerOperator.getPlayer());
         binding.ExoPlayerVIew.setKeepScreenOn(true);
+        if (savedData.getBooleanValue(PLAY_BACK_ENABLE, false))
+            videoPlayerOperator.seekTo(model.getStopPosition());
     }
 
     @Override
@@ -114,6 +120,8 @@ public class videoFragment extends Fragment implements View.OnClickListener {
         if (videoPlayerOperator.getPlayer() != null) {
             videoPlayerOperator.stopVideo();
             videoPlayerOperator.releaseVideo();
+            model.setStopPosition(videoPlayerOperator.getCurrentPosition());
+            viewModel.UpdateMedia(model);
         }
     }
 
@@ -162,10 +170,10 @@ public class videoFragment extends Fragment implements View.OnClickListener {
                 binding.playVideo.setVisibility(View.GONE);
                 binding.ExoPlayerVIew.setVisibility(View.VISIBLE);
                 playVideo();
-
                 break;
             case R.id.exo_play:
                 changeVideoStatue();
+                viewModel.clickedItem(false);
                 break;
             case R.id.exo_forward:
                 videoPlayerOperator.seekForward();

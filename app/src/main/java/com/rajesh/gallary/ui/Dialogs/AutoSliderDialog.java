@@ -50,8 +50,8 @@ public class AutoSliderDialog extends DialogFragment {
         Button cancelBtn = view.findViewById(R.id.SLider_cancle_Btn);
         //set Data
         Time_edx.setText(String.valueOf(savedData.getIntegerValue(TIME)));
-        Video_Include_switch.setChecked(savedData.getBooleanValue(INCLUDE_VIDEO));
-        Repeat.setChecked(savedData.getBooleanValue(LOOP_VIDEO));
+        Video_Include_switch.setChecked(savedData.getBooleanValue(INCLUDE_VIDEO,true));
+        Repeat.setChecked(savedData.getBooleanValue(LOOP_VIDEO,true));
         //Handle On click
         ChangeBtn.setOnClickListener(v -> {
             savedData.setIntegerValue(TIME, Integer.parseInt(Time_edx.getText().toString()));

@@ -41,7 +41,7 @@ public class mediaModel implements Serializable {
     @ColumnInfo(name = "Vault")
     private int Vault;
     private Boolean selected = false;
-
+    private long StopPosition = 0;
 
     public mediaModel() {
     }
@@ -134,5 +134,13 @@ public class mediaModel implements Serializable {
 
     public void setMediaID(long mediaID) {
         MediaID = mediaID;
+    }
+
+    public long getStopPosition() {
+        return StopPosition;
+    }
+
+    public void setStopPosition(long stopPosition) {
+        StopPosition = stopPosition;
     }
 }

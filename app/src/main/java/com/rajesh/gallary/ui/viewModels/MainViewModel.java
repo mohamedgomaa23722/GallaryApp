@@ -44,6 +44,8 @@ import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.functions.Predicate;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
@@ -184,8 +186,31 @@ public class MainViewModel extends ViewModel {
         return repository.getMediaTableData(vault);
     }
 
-    public LiveData<List<DateAndMedia>> getAllMediaItems() {
-        return repository.GetAllMedia();
+    private final MutableLiveData<List<DateAndMedia>> dateAndMediaData = new MutableLiveData<>();
+
+    public void InitializeData() {
+        repository.GetAllMedia()
+                .subscribeOn(Schedulers.io())
+                .map(dateAndMediaList -> {
+                    List<DateAndMedia> dateAndMedia = new ArrayList<>();
+                    for (DateAndMedia dateAndMediaObj : dateAndMediaList) {
+                        List<mediaModel> mediaModelResult = new ArrayList<>();
+                        for (mediaModel mediaData : dateAndMediaObj.mediaModelList) {
+                            if (mediaData.getVault() == 0)
+                                mediaModelResult.add(mediaData);
+                        }
+                        dateAndMedia.add(new DateAndMedia(dateAndMediaObj.date, mediaModelResult));
+                    }
+                    return dateAndMedia;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(dateAndMediaData::setValue,
+                        error -> Log.e(TAG, "InitializeData: ", error),
+                        () -> Log.d(TAG, "InitializeData: "));
+    }
+
+    public MutableLiveData<List<DateAndMedia>> getAllMediaItems() {
+        return dateAndMediaData;
     }
 
     // Fav
@@ -309,18 +334,6 @@ public class MainViewModel extends ViewModel {
     }
 
 
-    //Menu operation communication with fragment
-    private final MutableLiveData<String> MenuOperation = new MutableLiveData<String>(ALL_MEDIA_FILTER);
-
-    public LiveData<String> getMenuOperation() {
-        return MenuOperation;
-    }
-
-    public void setMenuOperation(String Operation) {
-        MenuOperation.setValue(Operation);
-    }
-
-
     //Get media data
     public LiveData<List<mediaModel>> GetAlbumMediaByType(String albumID, boolean type) {
         return repository.GetAlbumMediaByType(albumID, type);
@@ -402,6 +415,70 @@ public class MainViewModel extends ViewModel {
             //here file is missed
             return false;
         }
+    }
+
+    //Fav data
+    private final MutableLiveData<List<mediaModel>> favMedia = new MutableLiveData<>();
+
+    public void InitializeFavMedia() {
+        repository.getFavMedia().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(favMedia::setValue,
+                        error -> Log.e(TAG, "InitializeFavMedia: ", error),
+                        () -> Log.d(TAG, "InitializeFavMedia: "));
+    }
+
+    public MutableLiveData<List<mediaModel>> getFavMedia() {
+        return favMedia;
+    }
+
+    public void AddToVault(List<mediaModel> favList) {
+        for (mediaModel mediaModel : favList) {
+            if (mediaModel.getVault() == 0) {
+                mediaModel.setVault(1);
+            } else {
+                mediaModel.setVault(0);
+            }
+            mediaModel.setSelected(false);
+            UpdateMedia(mediaModel);
+        }
+    }
+
+    /**
+     * Menu operation Communication between Activity And fragments
+     * as in main activity we need to create Communication tool to communicate
+     * over fragment which belongs to this activity
+     */
+    //At the First we will create main communicator
+    private final MutableLiveData<String> AllMediaCommunicatorData = new MutableLiveData<String>(ALL_MEDIA_FILTER);
+    private final MutableLiveData<String> AlbumCommunicatorData = new MutableLiveData<String>(ALL_MEDIA_FILTER);
+    private final MutableLiveData<String> FavouriteCommunicatorData = new MutableLiveData<String>(ALL_MEDIA_FILTER);
+
+    //Then set the values we need to send it
+    public void setAllMediaCommunicatorData(String data) {
+        AllMediaCommunicatorData.setValue(data);
+    }
+
+    public void setAlbumCommunicatorData(String Operation) {
+        AlbumCommunicatorData.setValue(Operation);
+    }
+
+    public void setFavouriteCommunicatorData(String Operation) {
+        FavouriteCommunicatorData.setValue(Operation);
+    }
+
+    //Then get The Values from those Communicators
+    public LiveData<String> getAllMediaCommunicatorData() {
+        return AllMediaCommunicatorData;
+    }
+
+    public LiveData<String> getAlbumCommunicatorData() {
+        return AlbumCommunicatorData;
+    }
+
+    public LiveData<String> getFavouriteCommunicatorData() {
+        return FavouriteCommunicatorData;
     }
 
 }

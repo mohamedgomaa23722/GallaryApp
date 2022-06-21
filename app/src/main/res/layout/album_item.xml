@@ -40,4 +40,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/album_Image"
         app:layout_constraintTop_toBottomOf="@+id/album_Name" />
+
+    <View
+        android:id="@+id/selectedAlbumBack"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7AFFFFFF"
+        android:visibility="invisible"
+        />
+
+    <ImageView
+        android:id="@+id/SelectedAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_check_svgrepo_com"
+        android:scaleType="center"
+        android:visibility="invisible"
+        app:tint="@color/purple_200" />
 </RelativeLayout>

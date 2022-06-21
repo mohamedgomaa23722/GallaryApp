@@ -18,6 +18,7 @@ public class Albums {
     private String albumName;
     @ColumnInfo(name = "albumPath")
     private String albumPath;
+    private boolean isSelected = false;
 
     public Albums() {
     }
@@ -50,5 +51,13 @@ public class Albums {
 
     public void setAlbumPath(String albumPath) {
         this.albumPath = albumPath;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

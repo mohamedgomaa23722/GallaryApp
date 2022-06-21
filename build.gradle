@@ -17,8 +17,10 @@ plugins {
 
 allprojects {
     repositories {
-        jcenter()
-        google() // Google's Maven repositoryflatDir {dirs 'libs'}
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        flatDir {dirs 'libs'}
     }
 }
 

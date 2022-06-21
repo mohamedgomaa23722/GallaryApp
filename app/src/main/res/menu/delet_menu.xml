@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/Selected_deleteMedia"
+        android:icon="@drawable/ic_baseline_delete_outline_24"
+        android:iconTint="?attr/Text_Color"
+        android:title="delete"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/Selected_selectAll"
+        android:icon="@drawable/ic_baseline_select_all_24"
+        android:iconTint="?attr/Text_Color"
+        android:title="select all"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/Selected_share"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:title="Share"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/Selected_moveToVault"
+        android:title="Move to vault" />
+    <item
+        android:id="@+id/Selected_copyAllTo"
+        android:title="Copy to" />
+    <item
+        android:id="@+id/Selected_fav"
+        android:title="Add to favourites" />
+</menu>
+
+

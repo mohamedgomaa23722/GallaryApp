@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 public class Constant {
+    public static final String AppName = "com.rajesh.gallary";
 
     public static final String MEDIA_DATE_TABLE = "MEDIA_DATE_TABLE";
     public static final String MEDIA_DATA_TABLE = "MEDIA_DATA_TABLE";
@@ -76,7 +77,9 @@ public class Constant {
     public static final String VIDEO_MEDIA_FILTER = "VIDEO_MEDIA_FILTER";
     public static final String SIZE_MEDIA_FILTER = "SIZE_MEDIA_FILTER";
     public static final String NAME_MEDIA_FILTER = "NAME_MEDIA_FILTER";
-
+    //Favourities
+    public static final String FAV_GRID_COUNT = "FAV_GRID_COUNT";
+    public static final String FAV_VIEW_TYPE = "FAV_VIEW_TYPE";
 
     //Album constants
     public static final String ALBUM_GRID_COUNT = "ALBUM_GRID_COUNT";
@@ -101,11 +104,61 @@ public class Constant {
     public static final String ANSWER = "ANSWER";
 
     //Theme
-    public static final String THEME="THEME";
+    public static final String THEME = "THEME";
+    public static final String WHITE_THEME = "WHITE_THEME";
+    public static final String BLACK_THEME = "BLACK_THEME";
 
     //Slider
-    public static final String TIME="TIME";
-    public static final String INCLUDE_VIDEO="INCLUDE_VIDEO";
-    public static final String LOOP_VIDEO="LOOP_VIDEO";
+    public static final String TIME = "TIME";
+    public static final String INCLUDE_VIDEO = "INCLUDE_VIDEO";
+    public static final String LOOP_VIDEO = "LOOP_VIDEO";
+
+
+    //Passwords
+    public static final String ENABLE_FINGER_PRINT_KEY = "FINGER_PRINT_KEY";
+    public static final String PATTERN_KEY = "Pattern_Key";
+    public static final String Pin_Key = "Pin_Key";
+
+    public static final String STATUS_FIRST_STEP = "Draw an unlock pattern";
+    public static final String STATUS_Next_STEP = "Draw pattern again to confirm";
+    public static final String STATUS_PASSWORD_CORRECT = "Pattern set";
+    public static final String STATUS_PASSWORD_INCORRECT = "Try Again";
+    public static final String SHEMA_FAILED = "Connect at least 4 dots";
+    //pattern contants steps
+    public static final String OLD_PATTERN = "Enter old pattern";
+    public static final String NEW_PATTERN = "Enter new pattern";
+    public static final String CONFIRM_PATTERN = "Confirm new pattern";
+
+    public static final int FIRST_STEP = 0;
+    public static final int SECOND_STEP = 1;
+
+
+    public static final String FROM_PASSWORD_TO_SECURITY = "FROM_PASSWORD_TO_SECURITY";
+    public static final String FROM_SPLASH_SCREEN_TO_HOME = "FROM_SPLASH_SCREEN_TO_HOME";
+    public static final String FROM_PASSWORD_TO_VAULT = "FROM_PASSWORD_TO_VAULT";
+    public static final String FROM_VAULT_TO_SETTINGS = "FROM_VAULT_TO_SETTINGS";
+    public static final String FROM_SECURITY_TO_SETTINGS = "FROM_SECURITY_TO_SETTINGS";
+    public static final String FROM_SETTINGS_TO_SECURITY = "FROM_SETTINGS_TO_SECURITY";
+    public static final String FROM_SETTINGS_TO_VAULT = "FROM_SETTINGS_TO_VAULT";
+    public static final String FROM_SETTING_TO_PASSWORD = "FROM_SETTING_TO_PASSWORD";
+
+    //Password boolean values
+    public static final String FINGER_PRINT_ENABLE = "FINGER_PRINT_ENABLE";
+    public static final String LOCK_ENABLE = "LOCK_ENABLE";
+    public static final String PATTERN_ENABLE = "PATTERN_ENABLE";
+    public static final String PLAY_BACK_ENABLE="PLAY_BACK_ENABLE";
+
+
+    //popup menu operations for RecyclerView
+    public static final int SELECT_ALL = 0;
+    public static final int DELETE_SELECTED = 1;
+    public static final int SHARE_SELECTED = 2;
+    public static final int ADD_FAV_SELECTED = 3;
+    public static final int COPY_SELECTED = 4;
+    public static final int MOVE_TO_VAULT = 5;
+
+
+    public static final String RESTART_FRAGMENT = "RESTART_FRAGMENT";
+
 
 }

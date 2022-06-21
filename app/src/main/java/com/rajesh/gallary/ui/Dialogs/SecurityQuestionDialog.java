@@ -17,10 +17,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rajesh.gallary.R;
+import com.rajesh.gallary.network.SecurityCommunicator;
+import com.rajesh.gallary.ui.viewModels.SettingsViewModel;
 import com.rajesh.gallary.utils.SavedData;
 
 import javax.inject.Inject;
@@ -30,12 +33,20 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class SecurityQuestionDialog extends DialogFragment {
 
+    private SettingsViewModel viewModel;
     @Inject
     SavedData savedData;
+    String Question = "";
+    private SecurityCommunicator securityCommunicator;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        //Declare View Model
+        viewModel = new ViewModelProvider(getActivity()).get(SettingsViewModel.class);
+        //Get Data if Available
+        if (getArguments() != null)
+            Question = getArguments().getString(QUESTION);
         // Build the dialog and set up the button click handlers
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
@@ -62,10 +73,27 @@ public class SecurityQuestionDialog extends DialogFragment {
             Toast.makeText(getActivity(), "Next", Toast.LENGTH_SHORT).show();
             if (AnswerView.getText().length() > 0 && QuestionView.getText().length() > 0) {
                 //save data into shared preferance
-                savedData.setSecurity(QUESTION, QuestionView.getText().toString());
-                savedData.setSecurity(ANSWER, AnswerView.getText().toString());
-                // close dialog
-                this.dismiss();
+                if (Question.length() == 0) {
+                    savedData.setSecurity(QUESTION, QuestionView.getText().toString());
+                    savedData.setSecurity(ANSWER, AnswerView.getText().toString());
+                    // close dialog
+                    this.dismiss();
+                } else {
+                    if (QuestionView.getText().toString().equals(savedData.getSecurity(QUESTION))
+                            && AnswerView.getText().toString().equals(savedData.getSecurity(ANSWER))) {
+                        securityCommunicator.ValidateSecurity(true);
+                        // close dialog
+                        this.dismiss();
+                    } else {
+                        if (!QuestionView.getText().toString().equals(savedData.getSecurity(QUESTION)))
+                            QuestionLayout.setError("Please choose correct question");
+                        if (!AnswerView.getText().toString().equals(savedData.getSecurity(ANSWER))) {
+                            AnswerLayout.setError("Please enter correct Answer");
+                        }
+                        viewModel.setDialogCommunicationData(false);
+                    }
+                }
+
             } else {
                 //set errors flags
                 if (AnswerView.getText().length() == 0)
@@ -86,5 +114,7 @@ public class SecurityQuestionDialog extends DialogFragment {
         return builder.create();
     }
 
-
+    public void setSecurityCommunicator(SecurityCommunicator securityCommunicator) {
+        this.securityCommunicator = securityCommunicator;
+    }
 }

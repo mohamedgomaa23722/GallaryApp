@@ -1,66 +1,48 @@
 package com.rajesh.gallary.ui.Activities;
 
 
-import static com.rajesh.gallary.common.Constant.ALBUM_GRID_VIEW_TYPE;
-import static com.rajesh.gallary.common.Constant.ALBUM_INCREASE_COLOUMN;
-import static com.rajesh.gallary.common.Constant.ALBUM_LIST_VIEW_TYPE;
-import static com.rajesh.gallary.common.Constant.ALBUM_NEW_FILTER_DATE;
-import static com.rajesh.gallary.common.Constant.ALBUM_OLD_FILTER_DATE;
-import static com.rajesh.gallary.common.Constant.ALBUM_REDUCE_COLOUMN;
 import static com.rajesh.gallary.common.Constant.ALBUM_SIZE_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.ALL_MEDIA_FILTER;
-import static com.rajesh.gallary.common.Constant.EXTERNAL_IMAGE;
-import static com.rajesh.gallary.common.Constant.EXTERNAL_VIDEO;
 import static com.rajesh.gallary.common.Constant.GRID_VIEW_TYPE;
 import static com.rajesh.gallary.common.Constant.IMAGE_MEDIA_FILTER;
-import static com.rajesh.gallary.common.Constant.IMAGE_PROJECTION;
 import static com.rajesh.gallary.common.Constant.INCREASE_COLOUMN;
 import static com.rajesh.gallary.common.Constant.LIST_VIEW_TYPE;
 import static com.rajesh.gallary.common.Constant.NAME_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.NEW_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.OLD_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.REDUCE_COLOUMN;
-import static com.rajesh.gallary.common.Constant.SHARED_P_NAME;
-import static com.rajesh.gallary.common.Constant.SIZE_MEDIA_FILTER;
-import static com.rajesh.gallary.common.Constant.THEME;
 import static com.rajesh.gallary.common.Constant.VIDEO_MEDIA_FILTER;
-import static com.rajesh.gallary.common.Constant.VIDEO_PROJECTION;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.ActivityMainBinding;
 import com.rajesh.gallary.homeSliderAdapter;
-import com.rajesh.gallary.model.Albums;
-import com.rajesh.gallary.model.DateOfMedia;
-import com.rajesh.gallary.model.mediaModel;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
+import com.rajesh.gallary.utils.AdmobHelper;
 import com.rajesh.gallary.utils.SavedData;
+import com.rajesh.gallary.utils.ShareAndRateHelper;
 
 
-import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -75,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 
     @Inject
     SavedData savedData;
+    @Inject
+    AdmobHelper admobHelper;
+    ShareAndRateHelper shareAndRateHelper;
+    private String CommunicatorType = "Photos";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,15 +81,20 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
             public void onTabSelected(TabLayout.Tab tab) {
                 Menu menu = binding.topAppBar.getMenu();
                 binding.topAppBar.setTitle(tab.getText());
+                CommunicatorType = Objects.requireNonNull(tab.getText()).toString();
 
                 if (tab.getText().equals("Albums")) {
                     menu.findItem(R.id.filterByType).setVisible(false);
                     menu.findItem(R.id.name).setVisible(true);
                     menu.findItem(R.id.size).setVisible(true);
+                    menu.findItem(R.id.oldDate).setVisible(false);
+                    menu.findItem(R.id.newDate).setVisible(false);
                 } else {
                     menu.findItem(R.id.filterByType).setVisible(true);
                     menu.findItem(R.id.name).setVisible(false);
                     menu.findItem(R.id.size).setVisible(false);
+                    menu.findItem(R.id.oldDate).setVisible(true);
+                    menu.findItem(R.id.newDate).setVisible(true);
                 }
             }
 
@@ -118,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
             }
         });
 
+        shareAndRateHelper = new ShareAndRateHelper(this);
+
+        binding.adView.loadAd(admobHelper.InitializeBannerAds());
 
     }
 
@@ -138,103 +132,104 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         Menu menu = binding.topAppBar.getMenu();
-        boolean isFilterVisible = menu.findItem(R.id.filterByType).isVisible();
-        Toast.makeText(getApplicationContext(), "" + isFilterVisible, Toast.LENGTH_SHORT).show();
-
         switch (item.getItemId()) {
             case R.id.listView:
                 // change view type grid or list of items
-                if (isFilterVisible)
-                    viewModel.setMenuOperation(LIST_VIEW_TYPE);
-                else
-                    viewModel.setMenuOperation(ALBUM_LIST_VIEW_TYPE);
+                initializeCommunicatorData(CommunicatorType, LIST_VIEW_TYPE);
                 //make increase and decrease items Invisible
-                menu.getItem(1).setVisible(false);
-                menu.getItem(2).setVisible(false);
+                menu.findItem(R.id.increaseColoumn).setVisible(false);
+                menu.findItem(R.id.reduceColoumn).setVisible(false);
                 return true;
             case R.id.GridView:
                 // change view type grid or list of items
-                if (isFilterVisible)
-                    viewModel.setMenuOperation(GRID_VIEW_TYPE);
-                else
-                    viewModel.setMenuOperation(ALBUM_GRID_VIEW_TYPE);
-
-                menu.getItem(1).setVisible(true);
-                menu.getItem(2).setVisible(true);
+                initializeCommunicatorData(CommunicatorType, GRID_VIEW_TYPE);
+                menu.findItem(R.id.increaseColoumn).setVisible(true);
+                menu.findItem(R.id.reduceColoumn).setVisible(true);
                 return true;
             case R.id.reduceColoumn:
                 //Reduce coloumn size
-                if (isFilterVisible)
-                    viewModel.setMenuOperation(REDUCE_COLOUMN);
-                else
-                    viewModel.setMenuOperation(ALBUM_REDUCE_COLOUMN);
+                initializeCommunicatorData(CommunicatorType, REDUCE_COLOUMN);
                 return true;
             case R.id.increaseColoumn:
                 //increase coloumn size
-                if (isFilterVisible)
-                    viewModel.setMenuOperation(INCREASE_COLOUMN);
-                else
-                    viewModel.setMenuOperation(ALBUM_INCREASE_COLOUMN);
+                initializeCommunicatorData(CommunicatorType, INCREASE_COLOUMN);
                 return true;
             case R.id.share_app:
                 //share app with friends
+                shareAndRateHelper.ShareApp();
                 return true;
             case R.id.rate_us:
                 //rate us on google play
+                shareAndRateHelper.RateUS();
                 return true;
             case R.id.settings:
                 //go to settings
                 Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
                 startActivity(intent);
-                finish();
                 return true;
             case R.id.newDate:
                 //Filter by newest date
-                if (isFilterVisible) {
-                    viewModel.setMenuOperation(NEW_FILTER_DATE);
-                    Toast.makeText(getApplicationContext(), "new date all media", Toast.LENGTH_SHORT).show();
-                } else {
-                    viewModel.setMenuOperation(ALBUM_NEW_FILTER_DATE);
-                    Toast.makeText(getApplicationContext(), "new date all media", Toast.LENGTH_SHORT).show();
-                }
+                initializeCommunicatorData(CommunicatorType, NEW_FILTER_DATE);
                 item.setChecked(true);
                 return true;
             case R.id.oldDate:
                 //Filter by oldest date
-                if (isFilterVisible)
-                    viewModel.setMenuOperation(OLD_FILTER_DATE);
-                else
-                    viewModel.setMenuOperation(ALBUM_OLD_FILTER_DATE);
+                initializeCommunicatorData(CommunicatorType, OLD_FILTER_DATE);
                 item.setChecked(true);
                 return true;
             case R.id.allmedia:
                 //Filter by get all media files
-                viewModel.setMenuOperation(ALL_MEDIA_FILTER);
+                initializeCommunicatorData(CommunicatorType, ALL_MEDIA_FILTER);
                 item.setChecked(true);
                 return true;
             case R.id.imageOnly:
                 //Filter by image only
-                viewModel.setMenuOperation(IMAGE_MEDIA_FILTER);
+                initializeCommunicatorData(CommunicatorType, IMAGE_MEDIA_FILTER);
                 item.setChecked(true);
                 return true;
             case R.id.videoOnly:
                 //filter by video only
-                viewModel.setMenuOperation(VIDEO_MEDIA_FILTER);
+                initializeCommunicatorData(CommunicatorType, VIDEO_MEDIA_FILTER);
                 item.setChecked(true);
                 return true;
             case R.id.size:
                 //filter by size
-                viewModel.setMenuOperation(ALBUM_SIZE_MEDIA_FILTER);
+                initializeCommunicatorData(CommunicatorType, ALBUM_SIZE_MEDIA_FILTER);
                 item.setChecked(true);
                 return true;
 
             case R.id.name:
                 //sort by name
-                viewModel.setMenuOperation(NAME_MEDIA_FILTER);
+                initializeCommunicatorData(CommunicatorType, NAME_MEDIA_FILTER);
                 item.setChecked(true);
                 return true;
         }
         return true;
     }
+
+    /**
+     * This Method used to send some data from activity -> viewmodel -> fragment
+     * depend on communicator type
+     *
+     * @param CommunicatorType
+     */
+    private void initializeCommunicatorData(String CommunicatorType, String CommunicatorData) {
+        switch (CommunicatorType) {
+            case "Photos":
+                viewModel.setAllMediaCommunicatorData(CommunicatorData);
+                break;
+            case "Albums":
+                viewModel.setAlbumCommunicatorData(CommunicatorData);
+                break;
+            case "Fav":
+                viewModel.setFavouriteCommunicatorData(CommunicatorData);
+                break;
+        }
+    }
+
+
 }
+
+
+
 

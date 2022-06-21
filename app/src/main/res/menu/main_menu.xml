@@ -87,9 +87,11 @@
                     android:title="Newest" />
                 <item
                     android:id="@+id/name"
+                    android:visible="false"
                     android:title="Name" />
                 <item
                     android:id="@+id/size"
+                    android:visible="false"
                     android:title="Size" />
             </group>
         </menu>

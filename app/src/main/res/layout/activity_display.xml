@@ -34,8 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_baseline_favorite_border_24"
-           />
+            android:src="@drawable/ic_baseline_favorite_border_24" />
 
         <ImageView
             android:id="@+id/edit"

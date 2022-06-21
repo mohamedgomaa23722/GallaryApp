@@ -30,7 +30,7 @@ public class SavedData {
 
     @SuppressLint("CommitPrefEdits")
     public void Saved_On_Cache(boolean saved) {
-        sharedpreferences.edit().putBoolean(IS_DATA_SAVED_IN_CACHE, true).apply();
+        sharedpreferences.edit().putBoolean(IS_DATA_SAVED_IN_CACHE, saved).apply();
     }
 
     public boolean Is_Data_Saved() {
@@ -118,8 +118,19 @@ public class SavedData {
         sharedpreferences.edit().putBoolean(flag, value).apply();
     }
 
-    public boolean getBooleanValue(String flag) {
-        return sharedpreferences.getBoolean(flag, true);
+    public boolean getBooleanValue(String flag,boolean defaultValue) {
+        return sharedpreferences.getBoolean(flag, defaultValue);
+    }
+
+    /**
+     * String Values
+     */
+    public void setStringValue(String flag, String value) {
+        sharedpreferences.edit().putString(flag, value).apply();
+    }
+
+    public String getStringValue(String flag) {
+        return sharedpreferences.getString(flag, null);
     }
 
 }

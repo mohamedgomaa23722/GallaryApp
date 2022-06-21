@@ -8,5 +8,74 @@
         android:id="@+id/settingsFragment"
         android:name="com.rajesh.gallary.ui.Fragments.SettingFragments.settingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/passwordFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_settingsFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_securityFragment"
+            app:destination="@id/securityFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_vaultFragmnet"
+            app:destination="@id/vaultFragmnet" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.rajesh.gallary.ui.Fragments.SettingFragments.PasswordFragment"
+        android:label="fragment_password"
+        tools:layout="@layout/fragment_password" >
+        <action
+            android:id="@+id/action_passwordFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/settingsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_passwordFragment_to_securityFragment"
+            app:destination="@id/securityFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/securityFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_passwordFragment_to_vaultFragmnet"
+            app:destination="@id/vaultFragmnet"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/vaultFragmnet"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.rajesh.gallary.ui.Fragments.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" />
+    <fragment
+        android:id="@+id/vaultFragmnet"
+        android:name="com.rajesh.gallary.ui.Fragments.SettingFragments.vaultFragmnet"
+        android:label="fragment_vault_fragmnet"
+        tools:layout="@layout/fragment_vault_fragmnet" >
+        <action
+            android:id="@+id/action_vaultFragmnet_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/settingsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/securityFragment"
+        android:name="com.rajesh.gallary.ui.Fragments.SettingFragments.SecurityFragment"
+        android:label="fragment_security"
+        tools:layout="@layout/fragment_security" >
+        <action
+            android:id="@+id/action_securityFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/settingsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
