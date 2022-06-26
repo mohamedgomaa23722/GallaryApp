@@ -1,5 +1,6 @@
 package com.rajesh.gallary.common;
 
+import android.Manifest;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -160,5 +161,8 @@ public class Constant {
 
     public static final String RESTART_FRAGMENT = "RESTART_FRAGMENT";
 
-
+   public static final String [] PERMISSION = {
+           Manifest.permission.READ_EXTERNAL_STORAGE,
+           Manifest.permission.WRITE_EXTERNAL_STORAGE
+   };
 }

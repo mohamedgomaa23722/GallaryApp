@@ -80,20 +80,23 @@ public class DataFilterHelper {
 
     /**
      * Sort date and media table relational by oldest or newest media
+     *
      * @param dateAndMediaList
      * @param Filter
      * @return
      */
     public List<DateAndMedia> SortDataByDate(List<DateAndMedia> dateAndMediaList, String Filter) {
-        if (Filter.equals(NEW_FILTER_DATE))
-            Collections.sort(dateAndMediaList, (t1, t2) -> Long.compare(t2.date.getRealDate(), t1.date.getRealDate()));
-        else
+        if (Filter.equals(NEW_FILTER_DATE)) {
             Collections.reverse(dateAndMediaList);
+            Collections.sort(dateAndMediaList, (t1, t2) -> Long.compare(t2.date.getRealDate(), t1.date.getRealDate()));
+        } else{
+            Collections.reverse(dateAndMediaList);
+        }
 
         return dateAndMediaList;
     }
 
-    public List<mediaModel> SortMediaByDate (List<mediaModel> mediaData, String Filter){
+    public List<mediaModel> SortMediaByDate(List<mediaModel> mediaData, String Filter) {
         if (Filter.equals(NEW_FILTER_DATE))
             Collections.sort(mediaData, (t1, t2) -> Long.compare(t2.getMediaDate(), t1.getMediaDate()));
         else

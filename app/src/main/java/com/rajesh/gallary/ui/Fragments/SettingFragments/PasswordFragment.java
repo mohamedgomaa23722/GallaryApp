@@ -53,6 +53,7 @@ import com.rajesh.gallary.utils.PasswordHelper;
 import com.rajesh.gallary.utils.SavedData;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -66,9 +67,8 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
     private String SecondPattern = "";
     private int Step = FIRST_STEP;
     private FingerprintManager fingerprintManager;
-
-
     private SettingsViewModel viewModel;
+    private CancellationSignal cancellationSignal;
     @Inject
     SavedData savedData;
 
@@ -103,7 +103,7 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void FingerListener() {
-        CancellationSignal cancellationSignal = new CancellationSignal();
+        cancellationSignal = new CancellationSignal();
         FingerprintManager.AuthenticationCallback authenticationCallback = new FingerprintManager.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, CharSequence errString) {
@@ -119,7 +119,7 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                if (savedData.getBooleanValue(FINGER_PRINT_ENABLE, false)) {
+                if (savedData.getBooleanValue(FINGER_PRINT_ENABLE, false) && getActivity().getPackageName() != null) {
                     Toast.makeText(getActivity(), "Succeeded", Toast.LENGTH_SHORT).show();
                     GoToDestination();
                 }
@@ -131,6 +131,7 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
                 super.onAuthenticationFailed();
             }
         };
+
         fingerprintManager.authenticate(null, cancellationSignal, 0, authenticationCallback, null);
     }
 
@@ -164,11 +165,7 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onComplete(List<PatternLockView.Dot> pattern) {
                 String PatternPassword = PatternLockUtils.patternToString(binding.patternLockView, pattern);
-                if (PatternPassword.length() < 4) {
-                    binding.PatternInstruction.setText(SHEMA_FAILED);
-                    binding.patternLockView.clearPattern();
-                    return;
-                } else {
+                if (PatternPassword.length() >= 4) {
                     if (savedData.getStringValue(PATTERN_KEY) == null || !savedData.getBooleanValue("IsValidate", true)) {
                         //This Mean that This Case is new one
                         //so we will initialize pattern as input
@@ -182,6 +179,8 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
                         } else {
                             //second Step
                             SecondPattern = PatternPassword;
+                            binding.PatternInstruction.setText(STATUS_Next_STEP);
+
                             if (FirstPattern.equals(SecondPattern)) {
                                 //Save Pattern
                                 savedData.setStringValue(PATTERN_KEY, FirstPattern);
@@ -198,9 +197,14 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
                             GoToDestination();
                         } else {
                             //Show Message to let him enter pattern again
-                            binding.PatternInstruction.setText("Faild Pattern");
+                            binding.PatternInstruction.setText("Faild Pattern, Try Again");
                         }
                     }
+                } else if (PatternPassword.length() != 0 && PatternPassword.length() < 4) {
+
+                    binding.PatternInstruction.setText(SHEMA_FAILED);
+                    binding.patternLockView.clearPattern();
+                    return;
                 }
 
                 binding.patternLockView.clearPattern();
@@ -230,8 +234,8 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
             binding.PatternInstruction.setText(STATUS_FIRST_STEP);
             binding.stepView.setVisibility(View.GONE);
             if (!savedData.getBooleanValue(PATTERN_ENABLE, false)) {
-                 binding.patternLockView.setVisibility(View.INVISIBLE);
-            }else if(!savedData.getBooleanValue(FINGER_PRINT_ENABLE,false)){
+                binding.patternLockView.setVisibility(View.INVISIBLE);
+            } else if (!savedData.getBooleanValue(FINGER_PRINT_ENABLE, false)) {
                 binding.fingerPrintIcon.setVisibility(View.INVISIBLE);
             }
         }
@@ -283,7 +287,14 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
             savedData.setBooleanValue(FINGER_PRINT_ENABLE, false);
             //Then we need to reInitialize this fragment
             SetUpView();
-            Toast.makeText(getContext(), "validate = " + isValidate, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(cancellationSignal != null)
+        cancellationSignal.cancel();
     }
 }

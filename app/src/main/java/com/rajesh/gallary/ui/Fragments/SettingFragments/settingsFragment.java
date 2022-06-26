@@ -98,8 +98,12 @@ public class settingsFragment extends Fragment implements View.OnClickListener, 
         AutoSliderDialog.show(getActivity().getSupportFragmentManager(), "AutoSliderDialog");
     }
 
-    private void SecurityQuestionDialog() {
+    private void SecurityQuestionDialog(String Destination) {
         DialogFragment SecurityQuestionDialog = new SecurityQuestionDialog();
+        Bundle DestinationData = new Bundle();
+        DestinationData.putString("DES",Destination);
+        DestinationData.putString(QUESTION,"");
+        SecurityQuestionDialog.setArguments(DestinationData);
         SecurityQuestionDialog.show(getActivity().getSupportFragmentManager(), "SecurityQuestionDialog");
     }
 
@@ -110,7 +114,7 @@ public class settingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.LockApp:
             case R.id.lockInstructions:
                 if (savedData.getSecurity(QUESTION).length() == 0)
-                    SecurityQuestionDialog();
+                    SecurityQuestionDialog(FROM_SETTINGS_TO_SECURITY);
                 else {
                     viewModel.setSettingsData(FROM_SETTINGS_TO_SECURITY);
                 }
@@ -119,7 +123,7 @@ public class settingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.Vault:
             case R.id.VaultInstructions:
                 if (savedData.getSecurity(QUESTION).length() == 0)
-                    SecurityQuestionDialog();
+                    SecurityQuestionDialog(FROM_SETTINGS_TO_VAULT);
                 else {
                     //Display Password Fragment
                     viewModel.setSettingsData(FROM_SETTINGS_TO_VAULT);
@@ -160,8 +164,4 @@ public class settingsFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-    private void RestartActivity() {
-        startActivity(new Intent(getActivity(), SettingActivity.class));
-        getActivity().finish();
-    }
 }

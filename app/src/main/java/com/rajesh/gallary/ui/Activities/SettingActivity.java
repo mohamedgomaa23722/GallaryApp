@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.google.common.graph.Graph;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.ActivitySettingBinding;
+import com.rajesh.gallary.network.SecurityCommunicator;
 import com.rajesh.gallary.ui.viewModels.SettingsViewModel;
 import com.rajesh.gallary.utils.SavedData;
 
@@ -44,7 +45,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity implements SecurityCommunicator {
     @Inject
     SavedData savedData;
 
@@ -66,23 +67,11 @@ public class SettingActivity extends AppCompatActivity {
             switch (s) {
                 case FROM_SETTINGS_TO_VAULT:
                 case FROM_SETTINGS_TO_SECURITY:
-                    //Check if the lock is enable or not
-                    if (savedData.getBooleanValue(LOCK_ENABLE, false)) {
                         //Go to password destination
                         Bundle destination = new Bundle();
                         destination.putString("DES", s);
                         navController.popBackStack(R.id.action_settingsFragment_to_passwordFragment, true);
                         navController.navigate(R.id.action_settingsFragment_to_passwordFragment, destination);
-                    }else{
-                        //check the destination and move to it
-                        if (s.equals(FROM_SETTINGS_TO_VAULT)){
-                            //Move to vault fragment
-                            MoveToDestination(R.id.action_settingsFragment_to_vaultFragmnet);
-                        }else{
-                            //Move To security fragment
-                            MoveToDestination(R.id.action_settingsFragment_to_securityFragment);
-                        }
-                    }
                     break;
                 case FROM_SECURITY_TO_SETTINGS:
                     MoveToDestination(R.id.action_securityFragment_to_settingsFragment);
@@ -121,5 +110,12 @@ public class SettingActivity extends AppCompatActivity {
     private void MoveToDestination(int DestinationID){
         navController.popBackStack(DestinationID, true);
         navController.navigate(DestinationID);
+    }
+
+    @Override
+    public void ValidateSecurity(boolean isValidate) {
+      if (isValidate){
+
+      }
     }
 }

@@ -119,7 +119,7 @@ public class AllMediaFragment extends Fragment implements onItemClickListener<me
     private void ObserveData() {
         viewModel.InitializeData();
         viewModel.getAllMediaItems().observe(getViewLifecycleOwner(), MediaResponse -> {
-            dateAndMediaList.addAll(MediaResponse);
+            dateAndMediaList.clear();
             //Initialize Save ui data preference
             adapter.setGridCount(savedData.getGridCount(GRID_COUNT));
             adapter.setViewType(savedData.getViewType(VIEW_TYPE));
@@ -127,10 +127,11 @@ public class AllMediaFragment extends Fragment implements onItemClickListener<me
             viewPool.setMaxRecycledViews(R.layout.parent_media_item, MediaResponse.size());
             binding.mediaList.setRecycledViewPool(viewPool);
             binding.mediaList.setItemViewCacheSize(MediaResponse.size());
-            adapter.setMediaAndDateList(MediaResponse);
+            adapter.setMediaAndDateList(dataFilterHelper.SortDataByDate(MediaResponse, NEW_FILTER_DATE));
             //Display the Views
             binding.progress.setVisibility(View.INVISIBLE);
             binding.mediaList.setVisibility(View.VISIBLE);
+            dateAndMediaList.addAll(MediaResponse);
         });
 
 

@@ -38,6 +38,7 @@ public class SecurityQuestionDialog extends DialogFragment {
     SavedData savedData;
     String Question = "";
     private SecurityCommunicator securityCommunicator;
+    String Destination = "";
 
     @NonNull
     @Override
@@ -45,8 +46,11 @@ public class SecurityQuestionDialog extends DialogFragment {
         //Declare View Model
         viewModel = new ViewModelProvider(getActivity()).get(SettingsViewModel.class);
         //Get Data if Available
-        if (getArguments() != null)
+        Bundle bundle = getArguments();
+        if (bundle != null) {
             Question = getArguments().getString(QUESTION);
+            Destination = getArguments().getString("DES");
+        }
         // Build the dialog and set up the button click handlers
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
@@ -70,12 +74,12 @@ public class SecurityQuestionDialog extends DialogFragment {
         QuestionView.setAdapter(questionAdapter);
         //Handle on buttons clicks
         Next_Btn.setOnClickListener(view -> {
-            Toast.makeText(getActivity(), "Next", Toast.LENGTH_SHORT).show();
             if (AnswerView.getText().length() > 0 && QuestionView.getText().length() > 0) {
                 //save data into shared preferance
                 if (Question.length() == 0) {
                     savedData.setSecurity(QUESTION, QuestionView.getText().toString());
                     savedData.setSecurity(ANSWER, AnswerView.getText().toString());
+                    viewModel.setSettingsData(Destination);
                     // close dialog
                     this.dismiss();
                 } else {

@@ -67,4 +67,10 @@ public class SplashActivity extends AppCompatActivity {
         else
         navController.navigate(R.id.action_settingsFragment_to_splashFragment);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

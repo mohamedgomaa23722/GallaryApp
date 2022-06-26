@@ -32,6 +32,8 @@ import com.rajesh.gallary.utils.SavedData;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -201,6 +203,7 @@ public class MainViewModel extends ViewModel {
                         }
                         dateAndMedia.add(new DateAndMedia(dateAndMediaObj.date, mediaModelResult));
                     }
+                    Collections.sort(dateAndMediaList, (t1, t2) -> Long.compare(t1.date.getRealDate(),t2.date.getRealDate()));
                     return dateAndMedia;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
