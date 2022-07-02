@@ -153,7 +153,6 @@ public class settingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.DarkTheme:
                 if (b) {
                     viewModel.setSettingsData(BLACK_THEME);
-
                 } else {
                     viewModel.setSettingsData(WHITE_THEME);
                 }

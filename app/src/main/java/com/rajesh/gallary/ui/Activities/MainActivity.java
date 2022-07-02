@@ -13,29 +13,20 @@ import static com.rajesh.gallary.common.Constant.OLD_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.REDUCE_COLOUMN;
 import static com.rajesh.gallary.common.Constant.VIDEO_MEDIA_FILTER;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.ActivityMainBinding;
-import com.rajesh.gallary.homeSliderAdapter;
+import com.rajesh.gallary.ui.Adapter.homeSliderAdapter;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
 import com.rajesh.gallary.utils.AdmobHelper;
 import com.rajesh.gallary.utils.SavedData;

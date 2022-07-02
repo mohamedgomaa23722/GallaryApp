@@ -1,7 +1,5 @@
 package com.rajesh.gallary.ui.Fragments.SettingFragments;
 
-import static com.rajesh.gallary.common.Constant.ADD_FAV_SELECTED;
-import static com.rajesh.gallary.common.Constant.COPY_SELECTED;
 import static com.rajesh.gallary.common.Constant.DATA;
 import static com.rajesh.gallary.common.Constant.DELETE_SELECTED;
 import static com.rajesh.gallary.common.Constant.FROM_VAULT_TO_SETTINGS;
@@ -20,8 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -29,7 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.rajesh.gallary.Adapter.allPicsAndVideos.MediaAdapter;
+import com.rajesh.gallary.ui.Adapter.allPicsAndVideos.MediaAdapter;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.FragmentVaultFragmnetBinding;
 import com.rajesh.gallary.model.mediaModel;

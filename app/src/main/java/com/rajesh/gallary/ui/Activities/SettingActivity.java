@@ -87,9 +87,11 @@ public class SettingActivity extends AppCompatActivity implements SecurityCommun
                     break;
                 case BLACK_THEME:
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    savedData.setBooleanValue(BLACK_THEME,true);
                     break;
                 case WHITE_THEME:
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    savedData.setBooleanValue(BLACK_THEME,false);
                     break;
             }
         });

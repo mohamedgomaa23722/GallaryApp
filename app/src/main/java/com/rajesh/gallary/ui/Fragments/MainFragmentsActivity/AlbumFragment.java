@@ -6,7 +6,6 @@ import static com.rajesh.gallary.common.Constant.ALBUM_GRID_COUNT;
 
 import static com.rajesh.gallary.common.Constant.ALBUM_SIZE_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.ALBUM_VIEW_TYPE;
-import static com.rajesh.gallary.common.Constant.COPY_SELECTED;
 import static com.rajesh.gallary.common.Constant.DELETE_SELECTED;
 import static com.rajesh.gallary.common.Constant.GRID_VIEW_TYPE;
 import static com.rajesh.gallary.common.Constant.INCREASE_COLOUMN;
@@ -31,8 +30,6 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.util.Log;
@@ -42,8 +39,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.rajesh.gallary.Adapter.AlbumsAdapter;
-import com.rajesh.gallary.R;
+import com.rajesh.gallary.ui.Adapter.AlbumsAdapter;
 import com.rajesh.gallary.databinding.FragmentAlbumBinding;
 
 import com.rajesh.gallary.model.AlbumsAndMedia;
@@ -51,10 +47,10 @@ import com.rajesh.gallary.model.mediaModel;
 import com.rajesh.gallary.network.onAlbumClicked;
 import com.rajesh.gallary.network.onLongSelected;
 import com.rajesh.gallary.ui.Activities.AlbumDisplayActivity;
-import com.rajesh.gallary.ui.BottomSheetss.CopyBottomSheet;
 import com.rajesh.gallary.ui.BottomSheetss.DeleteBottomSheet;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
 import com.rajesh.gallary.utils.AdmobHelper;
+import com.rajesh.gallary.utils.DataFilterHelper;
 import com.rajesh.gallary.utils.SavedData;
 
 
@@ -76,6 +72,8 @@ public class AlbumFragment extends Fragment implements onAlbumClicked<String>, o
     private MainViewModel viewModel;
 
     private AlbumsAdapter adapter;
+    @Inject
+    DataFilterHelper dataFilterHelper;
 
     @Inject
     SavedData savedData;
@@ -150,7 +148,7 @@ public class AlbumFragment extends Fragment implements onAlbumClicked<String>, o
                     break;
                 case ALBUM_SIZE_MEDIA_FILTER:
                     //filter data with album name
-                    adapter.SortBySize();
+                    adapter.setAlbums(dataFilterHelper.QuickSortAlbumsBySize(albumsAndMedia));
                     break;
                 case NAME_MEDIA_FILTER:
                     adapter.sortByName();

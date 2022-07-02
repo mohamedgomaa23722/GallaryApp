@@ -1,40 +1,21 @@
 package com.rajesh.gallary.ui.Activities;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 import static com.rajesh.gallary.common.Constant.ALBUM_DATA;
 import static com.rajesh.gallary.common.Constant.DATA;
-import static com.rajesh.gallary.common.Constant.EXTERNAL_IMAGE;
-import static com.rajesh.gallary.common.Constant.EXTERNAL_VIDEO;
 import static com.rajesh.gallary.common.Constant.FROM_VAULT_TO_SETTINGS;
-import static com.rajesh.gallary.common.Constant.IMAGE_PROJECTION;
 import static com.rajesh.gallary.common.Constant.INCLUDE_VIDEO;
 import static com.rajesh.gallary.common.Constant.LOOP_VIDEO;
-import static com.rajesh.gallary.common.Constant.SHARED_P_NAME;
-import static com.rajesh.gallary.common.Constant.THEME;
 import static com.rajesh.gallary.common.Constant.TIME;
-import static com.rajesh.gallary.common.Constant.VIDEO_PROJECTION;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
-import android.content.Context;
 import android.content.Intent;
 
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
@@ -42,54 +23,32 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dsphotoeditor.sdk.activity.DsPhotoEditorActivity;
 import com.dsphotoeditor.sdk.utils.DsPhotoEditorConstants;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.textfield.TextInputEditText;
-import com.rajesh.gallary.Adapter.SliderAdapter;
-import com.rajesh.gallary.Adapter.folderAdapter;
+import com.rajesh.gallary.ui.Adapter.SliderAdapter;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.ActivityDisplayBinding;
-import com.rajesh.gallary.model.AlbumsAndMedia;
 import com.rajesh.gallary.model.mediaModel;
-import com.rajesh.gallary.network.onAlbumClicked;
 import com.rajesh.gallary.ui.BottomSheetss.CopyBottomSheet;
 import com.rajesh.gallary.ui.BottomSheetss.DeleteBottomSheet;
 import com.rajesh.gallary.ui.BottomSheetss.DetailsBottomSheet;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
 import com.rajesh.gallary.utils.SavedData;
-import com.rajesh.gallary.utils.ShareAndRateHelper;
 
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.channels.FileChannel;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

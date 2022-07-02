@@ -7,4 +7,5 @@
     <attr name="background" format="reference" />
     <attr name="Text_Color" format="reference" />
     <attr name="StrockColor" format="reference" />
+    <attr name="LineColor" format="reference" />
 </resources>

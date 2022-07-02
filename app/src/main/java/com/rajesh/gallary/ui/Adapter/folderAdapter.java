@@ -1,4 +1,4 @@
-package com.rajesh.gallary.Adapter;
+package com.rajesh.gallary.ui.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import com.rajesh.gallary.R;
 import com.rajesh.gallary.model.AlbumsAndMedia;
 import com.rajesh.gallary.network.onAlbumClicked;
 import com.rajesh.gallary.ui.ViewHolder.FolderViewHolder;
-import com.rajesh.gallary.ui.ViewHolder.MediaVIewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

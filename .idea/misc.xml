@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/drawable/input_text.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/media_frame.xml" value="0.297" />
         <entry key="app/src/main/res/layout-v23/folders_bottom_sheet.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout-v23/fragment_settings.xml" value="0.31875" />
         <entry key="app/src/main/res/layout/activity_album_display.xml" value="0.15729166666666666" />
         <entry key="app/src/main/res/layout/activity_display.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_edit_picture.xml" value="0.15729166666666666" />
@@ -42,7 +43,7 @@
         <entry key="app/src/main/res/layout/fragment_favourite.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_password.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_picture.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_security.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_security.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.15729166666666666" />
         <entry key="app/src/main/res/layout/fragment_vault_fragmnet.xml" value="0.33" />

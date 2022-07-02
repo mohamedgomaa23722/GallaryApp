@@ -2,53 +2,38 @@ package com.rajesh.gallary.ui.Activities;
 
 import static com.rajesh.gallary.common.Constant.ADD_FAV_SELECTED;
 import static com.rajesh.gallary.common.Constant.ALBUM_DATA;
-import static com.rajesh.gallary.common.Constant.ALL_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.COPY_SELECTED;
 import static com.rajesh.gallary.common.Constant.DATA;
 import static com.rajesh.gallary.common.Constant.DELETE_SELECTED;
 import static com.rajesh.gallary.common.Constant.GRID_COUNT;
-import static com.rajesh.gallary.common.Constant.GRID_VIEW_TYPE;
-import static com.rajesh.gallary.common.Constant.IMAGE_MEDIA_FILTER;
-import static com.rajesh.gallary.common.Constant.INCREASE_COLOUMN;
-import static com.rajesh.gallary.common.Constant.LIST_VIEW_TYPE;
 import static com.rajesh.gallary.common.Constant.MOVE_TO_VAULT;
 import static com.rajesh.gallary.common.Constant.NEW_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.OLD_FILTER_DATE;
-import static com.rajesh.gallary.common.Constant.REDUCE_COLOUMN;
 import static com.rajesh.gallary.common.Constant.SELECT_ALL;
-import static com.rajesh.gallary.common.Constant.SHARED_P_NAME;
 import static com.rajesh.gallary.common.Constant.SHARE_SELECTED;
-import static com.rajesh.gallary.common.Constant.SIZE_MEDIA_FILTER;
-import static com.rajesh.gallary.common.Constant.THEME;
-import static com.rajesh.gallary.common.Constant.VIDEO_MEDIA_FILTER;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.rajesh.gallary.Adapter.allPicsAndVideos.MediaAdapter;
+import com.rajesh.gallary.ui.Adapter.allPicsAndVideos.MediaAdapter;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.ActivityAlbumDisplayBinding;
-import com.rajesh.gallary.databinding.ActivityDisplayBinding;
 import com.rajesh.gallary.model.mediaModel;
 import com.rajesh.gallary.network.onItemClickListener;
 import com.rajesh.gallary.network.onLongSelected;
@@ -111,7 +96,7 @@ public class AlbumDisplayActivity extends AppCompatActivity implements onItemCli
         adapter.setOnLongSelected(this);
         viewModel.getMediaByAlbum().observe(this, mediaByAlbumResponse -> {
             mediaModelList.clear();
-            adapter.setMediaModelList(mediaByAlbumResponse);
+            adapter.FilterMediaModelList(dataFilterHelper.SortMediaByDate(mediaByAlbumResponse,NEW_FILTER_DATE));
             adapter.setGridCount(savedData.getGridCount(GRID_COUNT));
             adapter.setViewType(savedData.getViewType(GRID_COUNT));
             mediaModelList.addAll(mediaByAlbumResponse);
@@ -218,12 +203,12 @@ public class AlbumDisplayActivity extends AppCompatActivity implements onItemCli
                 return true;
             case R.id.newDate:
                 //Filter by newest date
-                adapter.SortMediaByDate(NEW_FILTER_DATE);
+                adapter.FilterMediaModelList(dataFilterHelper.SortMediaByDate(mediaModelList,NEW_FILTER_DATE));
                 item.setChecked(true);
                 return true;
             case R.id.oldDate:
                 //Filter by oldest date
-                adapter.SortMediaByDate(OLD_FILTER_DATE);
+                adapter.FilterMediaModelList(dataFilterHelper.SortMediaByDate(mediaModelList,OLD_FILTER_DATE));
                 item.setChecked(true);
                 return true;
             case R.id.allmedia:

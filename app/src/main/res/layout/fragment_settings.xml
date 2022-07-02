@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/background"
     tools:context=".ui.Fragments.SettingFragments.settingsFragment">
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -20,14 +21,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_2sdp"
-
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
-        android:background="#D6D6D6"
+        android:background="@color/LineColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -36,20 +36,22 @@
         android:id="@+id/LockApp"
         style="@style/Settingtext"
         android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:drawablePadding="@dimen/_5sdp"
         android:text="@string/lock_app"
         app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
         app:drawableTint="?attr/Text_Color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/view1" />
 
     <TextView
         android:id="@+id/lockInstructions"
         style="@style/Settingtext"
         android:layout_marginTop="2dp"
         android:text="@string/lock_instruction"
-        android:textSize="16sp"
         android:textColor="@color/instructionColor"
+        android:textSize="16sp"
         app:drawableTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,6 +61,8 @@
         android:id="@+id/Vault"
         style="@style/Settingtext"
         android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_baseline_photo_album_24"
+        android:drawablePadding="@dimen/_5sdp"
         android:text="Secure Vault"
         app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
         app:drawableTint="?attr/Text_Color"
@@ -71,8 +75,8 @@
         style="@style/Settingtext"
         android:layout_marginTop="2dp"
         android:text="Keep your media secured by adding it to vault "
-        android:textSize="16sp"
         android:textColor="@color/instructionColor"
+        android:textSize="16sp"
         app:drawableTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,9 +85,12 @@
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/DarkTheme"
         style="@style/Settingtext"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="16dp"
         android:checked="true"
+        android:drawableStart="@drawable/ic_baseline_contrast_24"
+        android:drawablePadding="@dimen/_5sdp"
         android:text="@string/dark_mode"
+        app:drawableTint="?attr/Text_Color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/VaultInstructions" />
@@ -92,9 +99,9 @@
         android:id="@+id/playbackLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/_16sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DarkTheme">
@@ -104,9 +111,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/playbackSwitch"
+            android:drawablePadding="@dimen/_5sdp"
             android:text="@string/remember_last_video_playback"
             android:textColor="?attr/Text_Color"
-            />
+            app:drawableStartCompat="@drawable/ic_baseline_play_circle_filled_24"
+            app:drawableTint="?attr/Text_Color" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/playbackSwitch"
@@ -114,6 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+
             android:layout_marginEnd="@dimen/_5sdp"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -125,6 +135,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_toStartOf="@+id/playbackSwitch"
+            android:paddingStart="@dimen/_5sdp"
             android:text="Save the position of last video and play it back when show it again"
             android:textColor="@color/instructionColor"
             android:textSize="16sp"
@@ -138,10 +149,13 @@
         android:id="@+id/shareApp"
         style="@style/Settingtext"
         android:layout_marginTop="16dp"
+        android:drawablePadding="@dimen/_5sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
         android:text="@string/share"
         app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+        app:drawableStartCompat="@drawable/ic_baseline_share_24"
         app:drawableTint="?attr/Text_Color"
-        android:padding="@dimen/_8sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SliderInstructions" />
@@ -150,9 +164,12 @@
         android:id="@+id/rateApp"
         style="@style/Settingtext"
         android:layout_marginTop="16dp"
+        android:drawablePadding="@dimen/_5sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
         android:text="Rate"
-        android:padding="@dimen/_8sdp"
         app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+        app:drawableStartCompat="@drawable/ic_baseline_star_rate_24"
         app:drawableTint="?attr/Text_Color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -162,8 +179,10 @@
         android:id="@+id/Slider"
         style="@style/Settingtext"
         android:layout_marginTop="16dp"
+        android:drawablePadding="@dimen/_5sdp"
         android:text="Auto Slider"
         app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+        app:drawableStartCompat="@drawable/ic_baseline_replay_10_24"
         app:drawableTint="?attr/Text_Color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -174,8 +193,8 @@
         style="@style/Settingtext"
         android:layout_marginTop="2dp"
         android:text="Change Auto Slider For medias settings. "
-        android:textSize="16sp"
         android:textColor="@color/instructionColor"
+        android:textSize="16sp"
         app:drawableTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

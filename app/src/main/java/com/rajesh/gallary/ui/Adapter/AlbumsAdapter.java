@@ -1,4 +1,4 @@
-package com.rajesh.gallary.Adapter;
+package com.rajesh.gallary.ui.Adapter;
 
 import static com.rajesh.gallary.common.Constant.ADD_FAV_SELECTED;
 import static com.rajesh.gallary.common.Constant.COPY_SELECTED;
@@ -10,7 +10,6 @@ import static com.rajesh.gallary.common.Constant.SHARE_SELECTED;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,29 +20,19 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.rajesh.gallary.R;
-import com.rajesh.gallary.model.Albums;
 import com.rajesh.gallary.model.AlbumsAndMedia;
-import com.rajesh.gallary.model.mediaModel;
 import com.rajesh.gallary.network.onAlbumClicked;
 import com.rajesh.gallary.network.onLongSelected;
 import com.rajesh.gallary.ui.ViewHolder.AlbumViewHolder;
-import com.rajesh.gallary.ui.ViewHolder.MediaVIewHolder;
-import com.rajesh.gallary.ui.ViewHolder.ParentMediaViewHolder;
 import com.rajesh.gallary.utils.AutoFitRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
-
-import dagger.hilt.android.qualifiers.ApplicationContext;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumViewHolder> {
     private List<AlbumsAndMedia> albums = new ArrayList<>();

@@ -5,12 +5,10 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static com.rajesh.gallary.common.Constant.EXTERNAL_IMAGE;
 import static com.rajesh.gallary.common.Constant.EXTERNAL_VIDEO;
 import static com.rajesh.gallary.common.Constant.IMAGE_PROJECTION;
-import static com.rajesh.gallary.common.Constant.IS_DATA_SAVED_IN_CACHE;
 import static com.rajesh.gallary.common.Constant.VIDEO_PROJECTION;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
@@ -30,7 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.rajesh.gallary.Adapter.folderAdapter;
+import com.rajesh.gallary.ui.Adapter.folderAdapter;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.model.AlbumsAndMedia;
 import com.rajesh.gallary.model.mediaModel;

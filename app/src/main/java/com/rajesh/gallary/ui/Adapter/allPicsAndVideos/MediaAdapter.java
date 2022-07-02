@@ -1,7 +1,6 @@
-package com.rajesh.gallary.Adapter.allPicsAndVideos;
+package com.rajesh.gallary.ui.Adapter.allPicsAndVideos;
 
 import static com.rajesh.gallary.common.Constant.ADD_FAV_SELECTED;
-import static com.rajesh.gallary.common.Constant.ALL_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.COPY_SELECTED;
 import static com.rajesh.gallary.common.Constant.DELETE_SELECTED;
 import static com.rajesh.gallary.common.Constant.MOVE_TO_VAULT;
@@ -11,9 +10,6 @@ import static com.rajesh.gallary.common.Constant.SHARE_SELECTED;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -22,12 +18,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -35,15 +28,12 @@ import com.rajesh.gallary.R;
 import com.rajesh.gallary.model.mediaModel;
 import com.rajesh.gallary.network.onItemClickListener;
 import com.rajesh.gallary.network.onLongSelected;
-import com.rajesh.gallary.ui.Activities.MainActivity;
 import com.rajesh.gallary.ui.ViewHolder.MediaVIewHolder;
 import com.rajesh.gallary.utils.AutoFitRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class MediaAdapter extends RecyclerView.Adapter<MediaVIewHolder> {
 

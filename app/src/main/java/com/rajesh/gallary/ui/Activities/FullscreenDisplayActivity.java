@@ -12,12 +12,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.Toast;
 
-import com.rajesh.gallary.Adapter.SliderAdapter;
+import com.rajesh.gallary.ui.Adapter.SliderAdapter;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.ActivityFullscreenDisplayBinding;
 import com.rajesh.gallary.model.mediaModel;

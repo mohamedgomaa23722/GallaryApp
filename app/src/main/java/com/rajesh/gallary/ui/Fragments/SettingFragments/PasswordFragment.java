@@ -233,7 +233,9 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
         } else {
             binding.PatternInstruction.setText(STATUS_FIRST_STEP);
             binding.stepView.setVisibility(View.GONE);
-            if (!savedData.getBooleanValue(PATTERN_ENABLE, false)) {
+            if (!savedData.getBooleanValue(PATTERN_ENABLE, false)
+                    && Dis.equals(FROM_SPLASH_SCREEN_TO_HOME)
+                    && savedData.getBooleanValue(FINGER_PRINT_ENABLE,false)) {
                 binding.patternLockView.setVisibility(View.INVISIBLE);
             } else if (!savedData.getBooleanValue(FINGER_PRINT_ENABLE, false)) {
                 binding.fingerPrintIcon.setVisibility(View.INVISIBLE);

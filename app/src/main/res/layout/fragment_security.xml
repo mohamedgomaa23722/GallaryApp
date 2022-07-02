@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,24 +21,42 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_2sdp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/LineColor" />
+
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/Enable_Lock"
         style="@style/Settingtext"
         android:layout_marginTop="@dimen/_5sdp"
         android:checked="false"
-        android:text="Enable Lock" />
+        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:drawablePadding="@dimen/_5sdp"
+        android:text="Enable Lock"
+        app:drawableTint="?attr/Text_Color" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/EnablePattern"
         style="@style/Settingtext"
         android:layout_marginTop="@dimen/_5sdp"
         android:checked="false"
-        android:text="Enable Pattern Lock" />
+        android:drawableStart="@drawable/ic_pattern_key_svgrepo_com"
+        android:drawablePadding="@dimen/_5sdp"
+        android:text="Enable Pattern Lock"
+        app:drawableTint="?attr/Text_Color" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/EnableFingerPrint"
         style="@style/Settingtext"
         android:layout_marginTop="@dimen/_5sdp"
         android:checked="false"
-        android:text="Enable finger print" />
+        android:drawableStart="@drawable/ic_baseline_fingerprint_24"
+        android:drawablePadding="@dimen/_5sdp"
+        android:text="Enable finger print"
+        app:drawableTint="?attr/Text_Color" />
 </LinearLayout>

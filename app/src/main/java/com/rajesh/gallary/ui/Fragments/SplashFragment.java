@@ -30,26 +30,19 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.rajesh.gallary.BuildConfig;
-import com.rajesh.gallary.R;
-import com.rajesh.gallary.databinding.ActivitySplashBinding;
+
 import com.rajesh.gallary.databinding.FragmentSplashBinding;
 import com.rajesh.gallary.ui.Activities.MainActivity;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
-import com.rajesh.gallary.utils.RequiredPermission;
 import com.rajesh.gallary.utils.SavedData;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -61,20 +54,14 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class SplashFragment extends Fragment {
 
     private FragmentSplashBinding binding;
-    private static final String TAG = "SplashActivity";
     private MainViewModel viewModel;
-    boolean isok = false;
-    @Inject
-    SavedData savedData;
-    ActivityResultLauncher<String[]> permissionLauncher;
-    ActivityResultContracts.RequestMultiplePermissions multiplePermissions;
-
-
-    int progressNumbers = 0;
-
+    private ActivityResultLauncher<String[]> permissionLauncher;
+    private ActivityResultContracts.RequestMultiplePermissions multiplePermissions;
     private boolean isReadPermissionGranted = false;
     private boolean isWritePermissionGranted = false;
     private boolean isManagePermissionGranted = false;
+    @Inject
+    SavedData savedData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,24 +97,26 @@ public class SplashFragment extends Fragment {
                 }
             });
             requestPermissions();
-            if(isReadPermissionGranted && isWritePermissionGranted){
+            if (isReadPermissionGranted && isWritePermissionGranted) {
                 CheckDataProgress();
             }
         }
 
 
     }
-    private void CheckDataProgress(){
+
+    private void CheckDataProgress() {
         //check if data is already saved or not
         //Then Set up data
         if (savedData.getBooleanValue(IS_DATA_SAVED_IN_CACHE, false)) {
             //saved then move to main
             GoToMain();
-        }else{
+        } else {
             //setup data
             SetupData();
         }
     }
+
     private void SetupData() {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -137,7 +126,6 @@ public class SplashFragment extends Fragment {
             GoToMain();
         };
         executorService.execute(() -> {
-            Log.d(TAG, "SetupData: initialize data");
             viewModel.initializeMediaData(EXTERNAL_IMAGE, IMAGE_PROJECTION, true);
             viewModel.initializeMediaData(EXTERNAL_VIDEO, VIDEO_PROJECTION, false);
             handler.post(runnable);
@@ -227,7 +215,6 @@ public class SplashFragment extends Fragment {
             if (Environment.isExternalStorageManager() || !savedData.getBooleanValue(IS_DATA_SAVED_IN_CACHE, false)) {
                 // Permission granted. Now resume your workflow.
                 SetupData();
-                Toast.makeText(getContext(), "activityResultLauncher"+savedData.getBooleanValue(IS_DATA_SAVED_IN_CACHE, false), Toast.LENGTH_SHORT).show();
             }
         });
         activityResultLauncher.launch(StorageIntent);

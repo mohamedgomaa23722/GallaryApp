@@ -1,4 +1,4 @@
-package com.rajesh.gallary.Adapter;
+package com.rajesh.gallary.ui.Adapter;
 
 
 

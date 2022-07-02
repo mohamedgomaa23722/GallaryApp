@@ -1,14 +1,12 @@
 package com.rajesh.gallary.ui.Fragments.MainFragmentsActivity;
 
 import static com.rajesh.gallary.common.Constant.ADD_FAV_SELECTED;
-import static com.rajesh.gallary.common.Constant.ALBUM_DATA;
 import static com.rajesh.gallary.common.Constant.ALL_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.COPY_SELECTED;
 import static com.rajesh.gallary.common.Constant.DATA;
 import static com.rajesh.gallary.common.Constant.DELETE_SELECTED;
 import static com.rajesh.gallary.common.Constant.FAV_GRID_COUNT;
 import static com.rajesh.gallary.common.Constant.FAV_VIEW_TYPE;
-import static com.rajesh.gallary.common.Constant.GRID_COUNT;
 import static com.rajesh.gallary.common.Constant.GRID_VIEW_TYPE;
 import static com.rajesh.gallary.common.Constant.IMAGE_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.INCREASE_COLOUMN;
@@ -43,22 +41,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.rajesh.gallary.Adapter.allPicsAndVideos.MediaAdapter;
-import com.rajesh.gallary.R;
+import com.rajesh.gallary.ui.Adapter.allPicsAndVideos.MediaAdapter;
 import com.rajesh.gallary.databinding.FragmentFavouriteBinding;
 import com.rajesh.gallary.model.mediaModel;
 import com.rajesh.gallary.network.onItemClickListener;
 import com.rajesh.gallary.network.onLongSelected;
-import com.rajesh.gallary.ui.Activities.AlbumDisplayActivity;
 import com.rajesh.gallary.ui.Activities.DisplayActivity;
 import com.rajesh.gallary.ui.BottomSheetss.CopyBottomSheet;
 import com.rajesh.gallary.ui.BottomSheetss.DeleteBottomSheet;
-import com.rajesh.gallary.ui.viewModels.FavViewModel;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
 import com.rajesh.gallary.utils.AdmobHelper;
 import com.rajesh.gallary.utils.DataFilterHelper;
 import com.rajesh.gallary.utils.SavedData;
-import com.rajesh.gallary.utils.ShareAndRateHelper;
 
 import java.io.File;
 import java.util.ArrayList;

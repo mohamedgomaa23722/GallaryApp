@@ -1,5 +1,6 @@
 package com.rajesh.gallary.ui.Activities;
 
+import static com.rajesh.gallary.common.Constant.BLACK_THEME;
 import static com.rajesh.gallary.common.Constant.EXTERNAL_IMAGE;
 import static com.rajesh.gallary.common.Constant.EXTERNAL_VIDEO;
 import static com.rajesh.gallary.common.Constant.IMAGE_PROJECTION;
@@ -12,6 +13,7 @@ import static com.rajesh.gallary.common.Constant.VIDEO_PROJECTION;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;

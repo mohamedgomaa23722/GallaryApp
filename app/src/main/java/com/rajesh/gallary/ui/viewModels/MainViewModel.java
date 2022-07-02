@@ -153,7 +153,7 @@ public class MainViewModel extends ViewModel {
 
                     long dateInMileSeconds = TimeUnit.SECONDS.toDays(Long.parseLong(date));
                     mediaData.setMediaDateId(RealDate);
-                    mediaData.setMediaDate(Long.parseLong(date));
+                    mediaData.setMediaDate(Long.parseLong(date)*1000);
 
                     String AlbumName = cursor.getString(cursor.getColumnIndexOrThrow(projection[4]));
                     String AlbumID = cursor.getString(cursor.getColumnIndexOrThrow(projection[5]));
@@ -165,7 +165,7 @@ public class MainViewModel extends ViewModel {
                     albums.setAlbumID(AlbumID);
                     albums.setAlbumName(AlbumName);
                     insertMedia(mediaData);
-                    insertMediaDate(new DateOfMedia(RealDate, dateInMileSeconds));
+                    insertMediaDate(new DateOfMedia(RealDate, Long.parseLong(date)*1000));
                     insertAlbum(albums);
 
                     //check the biggest date
@@ -276,7 +276,7 @@ public class MainViewModel extends ViewModel {
                     albums.setAlbumName(AlbumName);
 
                     insertMedia(mediaData);
-                    insertMediaDate(new DateOfMedia(RealDate, dateInMileSeconds));
+                    insertMediaDate(new DateOfMedia(RealDate, Long.parseLong(date) * 1000));
                     insertAlbum(albums);
 
                     Log.d("TAG", "initializeMediaData: Name:" + AlbumName + " , ID :" + AlbumID);

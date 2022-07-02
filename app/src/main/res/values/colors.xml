@@ -22,5 +22,6 @@
     <color name="red">#CD0000</color>
 
     <color name="mtrl_textinput_default_box_stroke_color">#0060FF</color>
+    <color name="LineColor">#252525</color>
 
 </resources>

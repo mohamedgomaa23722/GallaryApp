@@ -5,12 +5,9 @@ import static com.rajesh.gallary.common.Constant.ALL_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.COPY_SELECTED;
 import static com.rajesh.gallary.common.Constant.DATA;
 import static com.rajesh.gallary.common.Constant.DELETE_SELECTED;
-import static com.rajesh.gallary.common.Constant.EXTERNAL_IMAGE;
-import static com.rajesh.gallary.common.Constant.EXTERNAL_VIDEO;
 import static com.rajesh.gallary.common.Constant.GRID_COUNT;
 import static com.rajesh.gallary.common.Constant.GRID_VIEW_TYPE;
 import static com.rajesh.gallary.common.Constant.IMAGE_MEDIA_FILTER;
-import static com.rajesh.gallary.common.Constant.IMAGE_PROJECTION;
 import static com.rajesh.gallary.common.Constant.INCREASE_COLOUMN;
 import static com.rajesh.gallary.common.Constant.LIST_VIEW_TYPE;
 import static com.rajesh.gallary.common.Constant.MOVE_TO_VAULT;
@@ -18,9 +15,7 @@ import static com.rajesh.gallary.common.Constant.NEW_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.OLD_FILTER_DATE;
 import static com.rajesh.gallary.common.Constant.REDUCE_COLOUMN;
 import static com.rajesh.gallary.common.Constant.SHARE_SELECTED;
-import static com.rajesh.gallary.common.Constant.SIZE_MEDIA_FILTER;
 import static com.rajesh.gallary.common.Constant.VIDEO_MEDIA_FILTER;
-import static com.rajesh.gallary.common.Constant.VIDEO_PROJECTION;
 import static com.rajesh.gallary.common.Constant.VIEW_TYPE;
 
 import android.annotation.SuppressLint;
@@ -44,7 +39,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.rajesh.gallary.Adapter.allPicsAndVideos.DateAndMediaAdapter;
+import com.rajesh.gallary.ui.Adapter.allPicsAndVideos.DateAndMediaAdapter;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.FragmentAllMediaBinding;
 import com.rajesh.gallary.model.DateAndMedia;
@@ -62,8 +57,6 @@ import com.rajesh.gallary.utils.SavedData;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -127,7 +120,7 @@ public class AllMediaFragment extends Fragment implements onItemClickListener<me
             viewPool.setMaxRecycledViews(R.layout.parent_media_item, MediaResponse.size());
             binding.mediaList.setRecycledViewPool(viewPool);
             binding.mediaList.setItemViewCacheSize(MediaResponse.size());
-            adapter.setMediaAndDateList(dataFilterHelper.SortDataByDate(MediaResponse, NEW_FILTER_DATE));
+            adapter.setMediaAndDateList(dataFilterHelper.NewMediaQuickSort(MediaResponse, NEW_FILTER_DATE));
             //Display the Views
             binding.progress.setVisibility(View.INVISIBLE);
             binding.mediaList.setVisibility(View.VISIBLE);
@@ -163,11 +156,11 @@ public class AllMediaFragment extends Fragment implements onItemClickListener<me
                     break;
                 case NEW_FILTER_DATE:
                     // Get the array and pass it to adapter to filter it via comparable by new date
-                    adapter.setMediaAndDateList(dataFilterHelper.SortDataByDate(dateAndMediaList, NEW_FILTER_DATE));
+                    adapter.setMediaAndDateList(dataFilterHelper.NewMediaQuickSort(dateAndMediaList, NEW_FILTER_DATE));
                     break;
                 case OLD_FILTER_DATE:
                     // Get the array and pass it to adapter to filter it via comparable by old date
-                    adapter.setMediaAndDateList(dataFilterHelper.SortDataByDate(dateAndMediaList, OLD_FILTER_DATE));
+                    adapter.setMediaAndDateList(dataFilterHelper.NewMediaQuickSort(dateAndMediaList, OLD_FILTER_DATE));
                     break;
                 case ALL_MEDIA_FILTER:
                     // Set original data to adapter contains all medias
