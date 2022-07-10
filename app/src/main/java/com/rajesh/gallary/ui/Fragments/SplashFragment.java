@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -36,8 +37,11 @@ import android.view.ViewGroup;
 
 import com.rajesh.gallary.BuildConfig;
 
+import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.FragmentSplashBinding;
+import com.rajesh.gallary.network.DialogCommunicator;
 import com.rajesh.gallary.ui.Activities.MainActivity;
+import com.rajesh.gallary.ui.Dialogs.PermissionDialog;
 import com.rajesh.gallary.ui.viewModels.MainViewModel;
 import com.rajesh.gallary.utils.SavedData;
 
@@ -51,7 +55,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class SplashFragment extends Fragment {
+public class SplashFragment extends Fragment implements DialogCommunicator<Boolean>, View.OnClickListener {
 
     private FragmentSplashBinding binding;
     private MainViewModel viewModel;
@@ -60,6 +64,7 @@ public class SplashFragment extends Fragment {
     private boolean isReadPermissionGranted = false;
     private boolean isWritePermissionGranted = false;
     private boolean isManagePermissionGranted = false;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
     @Inject
     SavedData savedData;
 
@@ -76,10 +81,11 @@ public class SplashFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager())
+            if (!Environment.isExternalStorageManager()) {
                 InitializePermissionForRApi();
-            else
+            } else {
                 CheckDataProgress();
+            }
         } else {
             multiplePermissions = new ActivityResultContracts.RequestMultiplePermissions();
             permissionLauncher = registerForActivityResult(multiplePermissions, permissions -> {
@@ -87,12 +93,14 @@ public class SplashFragment extends Fragment {
                     isReadPermissionGranted = permissions.get(Manifest.permission.READ_EXTERNAL_STORAGE);
                     if (isReadPermissionGranted && isManagePermissionGranted && !savedData.getBooleanValue(IS_DATA_SAVED_IN_CACHE, false)) {
                         SetupData();
+                        permissionLauncher.unregister();
                     }
                 } else {
                     isReadPermissionGranted = permissions.get(Manifest.permission.READ_EXTERNAL_STORAGE);
                     isWritePermissionGranted = permissions.get(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     if (isReadPermissionGranted && isWritePermissionGranted && !savedData.getBooleanValue(IS_DATA_SAVED_IN_CACHE, false)) {
                         SetupData();
+                        permissionLauncher.unregister();
                     }
                 }
             });
@@ -101,7 +109,7 @@ public class SplashFragment extends Fragment {
                 CheckDataProgress();
             }
         }
-
+        binding.AllowPermission.setOnClickListener(this);
 
     }
 
@@ -205,18 +213,56 @@ public class SplashFragment extends Fragment {
         }
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void InitializePermissionForRApi() {
-        Uri uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
-        Intent StorageIntent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
+
         ActivityResultContracts.StartActivityForResult startActivityForResult = new ActivityResultContracts.StartActivityForResult();
-        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(startActivityForResult, result -> {
-            if (Environment.isExternalStorageManager() || !savedData.getBooleanValue(IS_DATA_SAVED_IN_CACHE, false)) {
+        activityResultLauncher = registerForActivityResult(startActivityForResult, result -> {
+            if (Environment.isExternalStorageManager() && !savedData.getBooleanValue(IS_DATA_SAVED_IN_CACHE, false)) {
                 // Permission granted. Now resume your workflow.
+                binding.finishp.setVisibility(View.VISIBLE);
+                binding.PermissionStatue.setText("Wait until finished some operations");
+                binding.AllowPermission.setVisibility(View.INVISIBLE);
                 SetupData();
+                activityResultLauncher.unregister();
+            } else {
+                DisplayPermissionDialog();
+                binding.finishp.setVisibility(View.INVISIBLE);
+                binding.AllowPermission.setVisibility(View.VISIBLE);
+                binding.PermissionStatue.setText("Please Allow Application to access all files to improve your features");
             }
         });
+        AddPermissionToLauncher();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    private void DisplayPermissionDialog() {
+        PermissionDialog PermissionDialog = new PermissionDialog();
+        PermissionDialog.show(getActivity().getSupportFragmentManager(), "permission");
+        PermissionDialog.setPermissionCommunicator(this);
+    }
+
+    private void AddPermissionToLauncher() {
+        Uri uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
+        Intent StorageIntent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
         activityResultLauncher.launch(StorageIntent);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    @Override
+    public void DialogMessage(Boolean isValidate) {
+        if (isValidate) {
+            AddPermissionToLauncher();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.AllowPermission) {
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R)
+                AddPermissionToLauncher();
+            else
+                requestPermissions();
+        }
     }
 }

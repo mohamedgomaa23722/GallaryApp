@@ -45,7 +45,7 @@
         <entry key="app/src/main/res/layout/fragment_picture.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_security.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_vault_fragmnet.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_video.xml" value="0.16" />
         <entry key="app/src/main/res/layout/item.xml" value="0.31979166666666664" />
@@ -54,6 +54,7 @@
         <entry key="app/src/main/res/layout/media_list_item.xml" value="0.2" />
         <entry key="app/src/main/res/layout/parent_media_item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/password_question_dialog.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/permission_dialog.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/security_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/slider_sheet.xml" value="0.33" />
         <entry key="app/src/main/res/menu/delet_menu.xml" value="0.33" />

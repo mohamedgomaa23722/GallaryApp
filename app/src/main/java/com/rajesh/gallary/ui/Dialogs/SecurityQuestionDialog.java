@@ -5,7 +5,6 @@ import static com.rajesh.gallary.common.Constant.QUESTION;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rajesh.gallary.R;
-import com.rajesh.gallary.network.SecurityCommunicator;
+import com.rajesh.gallary.network.DialogCommunicator;
 import com.rajesh.gallary.ui.viewModels.SettingsViewModel;
 import com.rajesh.gallary.utils.SavedData;
 
@@ -37,7 +36,7 @@ public class SecurityQuestionDialog extends DialogFragment {
     @Inject
     SavedData savedData;
     String Question = "";
-    private SecurityCommunicator securityCommunicator;
+    private DialogCommunicator<Boolean> securityCommunicator;
     String Destination = "";
 
     @NonNull
@@ -85,7 +84,7 @@ public class SecurityQuestionDialog extends DialogFragment {
                 } else {
                     if (QuestionView.getText().toString().equals(savedData.getSecurity(QUESTION))
                             && AnswerView.getText().toString().equals(savedData.getSecurity(ANSWER))) {
-                        securityCommunicator.ValidateSecurity(true);
+                        securityCommunicator.DialogMessage(true);
                         // close dialog
                         this.dismiss();
                     } else {
@@ -118,7 +117,7 @@ public class SecurityQuestionDialog extends DialogFragment {
         return builder.create();
     }
 
-    public void setSecurityCommunicator(SecurityCommunicator securityCommunicator) {
+    public void setSecurityCommunicator(DialogCommunicator<Boolean> securityCommunicator) {
         this.securityCommunicator = securityCommunicator;
     }
 }

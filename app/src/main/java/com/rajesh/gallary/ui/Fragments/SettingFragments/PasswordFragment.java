@@ -1,7 +1,6 @@
 package com.rajesh.gallary.ui.Fragments.SettingFragments;
 
 import static android.content.Context.FINGERPRINT_SERVICE;
-import static com.rajesh.gallary.common.Constant.CONFIRM_PATTERN;
 import static com.rajesh.gallary.common.Constant.FINGER_PRINT_ENABLE;
 import static com.rajesh.gallary.common.Constant.FIRST_STEP;
 import static com.rajesh.gallary.common.Constant.FROM_PASSWORD_TO_SECURITY;
@@ -13,7 +12,6 @@ import static com.rajesh.gallary.common.Constant.NEW_PATTERN;
 import static com.rajesh.gallary.common.Constant.PATTERN_ENABLE;
 import static com.rajesh.gallary.common.Constant.PATTERN_KEY;
 import static com.rajesh.gallary.common.Constant.QUESTION;
-import static com.rajesh.gallary.common.Constant.RESTART_FRAGMENT;
 import static com.rajesh.gallary.common.Constant.SECOND_STEP;
 import static com.rajesh.gallary.common.Constant.SHEMA_FAILED;
 import static com.rajesh.gallary.common.Constant.STATUS_FIRST_STEP;
@@ -27,9 +25,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.CancellationSignal;
@@ -44,23 +40,20 @@ import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.rajesh.gallary.R;
 import com.rajesh.gallary.databinding.FragmentPasswordBinding;
-import com.rajesh.gallary.network.SecurityCommunicator;
+import com.rajesh.gallary.network.DialogCommunicator;
 import com.rajesh.gallary.ui.Activities.MainActivity;
 import com.rajesh.gallary.ui.Dialogs.SecurityQuestionDialog;
 import com.rajesh.gallary.ui.viewModels.SettingsViewModel;
-import com.rajesh.gallary.utils.FIngerPrintHelper.FingerPrintChecker;
-import com.rajesh.gallary.utils.PasswordHelper;
 import com.rajesh.gallary.utils.SavedData;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class PasswordFragment extends Fragment implements View.OnClickListener, SecurityCommunicator {
+public class PasswordFragment extends Fragment implements View.OnClickListener, DialogCommunicator<Boolean> {
     private FragmentPasswordBinding binding;
 
     private String FirstPattern = "";
@@ -282,7 +275,7 @@ public class PasswordFragment extends Fragment implements View.OnClickListener, 
 
 
     @Override
-    public void ValidateSecurity(boolean isValidate) {
+    public void DialogMessage(Boolean isValidate) {
         if (isValidate) {
             // Here we need to give user permission to change the password
             savedData.setBooleanValue("IsValidate", false);
