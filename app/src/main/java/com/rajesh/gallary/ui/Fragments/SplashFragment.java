@@ -81,11 +81,7 @@ public class SplashFragment extends Fragment implements DialogCommunicator<Boole
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager()) {
-                InitializePermissionForRApi();
-            } else {
-                CheckDataProgress();
-            }
+            CheckDataProgress();
         } else {
             multiplePermissions = new ActivityResultContracts.RequestMultiplePermissions();
             permissionLauncher = registerForActivityResult(multiplePermissions, permissions -> {
